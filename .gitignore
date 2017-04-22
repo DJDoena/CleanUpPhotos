@@ -250,3 +250,4 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/CleanUpPhotos/CleanUpPhotosSetup/Setup/CleanUpPhotos/CleanUpPhotosSetup.exe
