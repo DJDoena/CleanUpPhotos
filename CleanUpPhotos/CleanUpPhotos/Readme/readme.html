@@ -1,0 +1,280 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Readme</title>
+<style type="text/css">
+a:link, a:visited { color: #0000FF;}
+</style>
+</head>
+<body>
+<h1>Clean Up Photos from DVD Profiler</h1>
+
+<h2><a name="TOC">Table of Contents</a></h2>
+
+<ol>
+<li><a href="#GeneralInfo">General Info</a></li>
+<li>
+  <a href="#Tabs">Meaning of the Individual Tabs</a>
+  <ol>
+    <li>
+      <a href="#CreditPhotos">Credit Photos</a>
+      <ol>
+        <li><a href="#InvalidCreditPhotosGeneral">Invalid Credit Photos (General)</a></li>
+        <li><a href="#ValidCreditPhotosGeneral">Valid Credit Photos (General)</a></li>
+        <li><a href="#InvalidCreditPhotosFolder">Invalid Credit Photos (Folder)</a></li>
+        <li><a href="#ValidCreditPhotosFolder">Valid Credit Photos (Folder)</a></li>
+        <li><a href="#InvalidCreditPhotosProfile">Invalid Credit Photos (in Folder)</a></li>
+        <li><a href="#ValidCreditPhotosProfile">Valid Credit Photos (in Folder)</a></li>
+      </ol>
+    </li>
+    <li>
+      <a href="#ScenePhotos">Scene Photos</a>
+      <ol>
+        <li><a href="#InvalidScenePhotos">Invalid Scene Photos</a></li>
+        <li><a href="#ValidScenePhotos">Valid Scene Photos</a></li>
+      </ol>
+    </li>
+    <li>
+      <a href="#CoverImages">Cover Images</a>
+      <ol>
+        <li><a href="#InvalidCoverImages">Invalid Cover Images</a></li>
+        <li><a href="#ValidCoverImages">Valid Cover Images</a></li>
+      </ol>
+    </li>
+  </ol>
+</li>
+<li>
+  <a href="#StartupParameters">Startup Parameters</a>
+  <ol>
+    <li><a href="#skipversioncheck">/skipversioncheck</a></li>
+  </ol>
+</li>
+<li><a href="#Warranty">Exclusion of Warranty</a></li>
+<li><a href="#WebLocation">Web Location</a></li>
+<li><a href="#Contact">Contact</a></li>
+<li><a href="#VersionHints">Version Hints</a></li>
+</ol>
+
+<h2><a name="GeneralInfo">General Info</a></h2>
+
+<p>
+This program can be used to remove unused Credit Photos, Scene Photos and Cover Images.
+<br/><br/>
+If you wish to clean up your Cover Images folder, the set the checkbox and select the folder that contains your database.
+</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h2><a name="Tabs">Meaning of the Individual Tabs</a></h2>
+
+<h3><a name="CreditPhotos">Credit Photos</a></h3>
+
+<p>
+In DVD Profiler (under Tools -> Options -> File Folders) you can set a folder where you store cast and crew pictures.<br/>
+If these files follow the correct
+<a href="http://www.dougweb.org/dvdpro/kb/index.php?title=Credit_Photos#Storing_on_the_harddrive" target="_new">naming conventions</a>,
+DVD Profiler will show these pictures when you select a cats or crew member.</p>
+<p>
+<a name="FolderNaming">In</a> addition to the general use of credit photos you can also store them by a specific profile
+(e.g. if you have an actor that was still a child in one movie and an adult in a later one).<br/>
+You can create a folder with the ID of that profile and put the credit photos in there.<br/>
+The naming convention is explained <a href="http://www.dougweb.org/dvdpro/kb/index.php?title=Image_naming_conventions" target="_new">here</a>
+but only contains the parts <code>identifier[.locality]</code>.
+</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h4><a name="InvalidCreditPhotosGeneral">Invalid Credit Photos (General)</a></h4>
+
+<p>Files that are not correctly named - because they don't match any cast or crew in your collection file will be shown here.</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h4><a name="ValidCreditPhotosGeneral">Valid Credit Photos (General)</a></h4>
+
+<p>Files that are correctly named will be shown here.</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h4><a name="InvalidCreditPhotosFolder">Invalid Credit Photos (Folder)</a></h4>
+
+<p>This will show you folders and their contents that don't match any ID in your collection.</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h4><a name="ValidCreditPhotosFolder">Valid Credit Photos (Folder)</a></h4>
+
+<p>Folders that are correctly named will be shown here.</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h4><a name="InvalidCreditPhotosProfile">Invalid Credit Photos (in Folder)</a></h4>
+
+<p>There is still the possibility that the folder itself is correctly named, but it contains wrongly named files. These will be shown here.</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h4><a name="ValidCreditPhotosProfile">Valid Credit Photos (in Folder)</a></h4>
+
+<p>Folders that are correctly named and contain only correctly named files will be shown here.</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h3><a name="ScenePhotos">Scene Photos</a></h3>
+
+<p>
+In DVD Profiler (under Tools -> Options -> File Folders) you can set a folder where you store scene pictures.<br/>
+These files are stored in one folder per profile (see naming conventions of folders <a href="#FolderNaming">here</a>).<br/>
+You can watch these pictures in DVD Profiler when you activate the gallery (View -> Windows -> Gallery).
+</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h4><a name="InvalidScenePhotos">Invalid Scene Photos</a></h4>
+
+<p>This will show you folders and their contents that don't match any ID in your collection.</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h4><a name="ValidScenePhotos">Valid Scene Photos</a></h4>
+
+<p>Folders that are correctly named will be shown here.</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h3><a name="CoverImages">Cover Images</a></h3>
+
+<p>
+Sometimes when profiles are removed from DVD Profiler the cover images remain (this is an option when you remove multiple profiles at once).<br/>
+DVD Profiler already gives the option to clean up the cover images folder (under Tools -> Options -> Utilities -> Clean Images Directory).<br/>
+That's why this option is disabled by default. If you wish to use it, set the check box and select your database folder.<br/>
+The naming convention of the files is explained <a href="http://www.dougweb.org/dvdpro/kb/index.php?title=Image_naming_conventions" target="_new">here</a>.
+</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h4><a name="InvalidCoverImages">Invalid Cover Images</a></h4>
+
+<p>This will show you all files that don't match an ID in your collection.</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h4><a name="ValidCoverImages">Valid Cover Images</a></h4>
+
+<p>Files that are correctly named will be shown here.</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h2><a name="StartupParameters">Startup Parameters</a></h2>
+
+<h3><a name="skipversioncheck">/skipversioncheck</a></h3>
+
+<p>
+If you start the program with the parameter /skipversioncheck then it won't check if a new version is available for
+download.
+</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h2><a name="Warranty">Exclusion of Warranty</a></h2>
+
+<p>
+It's highly unlikely that this program will do any damage to your computer. But you are still running it at your own
+risk, I can't be held accountable for any damage it causes.
+</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h2><a name="WebLocation">Web Location</a></h2>
+
+<p>
+You can find this program and other DVD Profiler related programs under 
+<a href="http://doena-journal.net/en/dvd-profiler-tools" target="_new">http://doena-journal.net/en/dvd-profiler-tools</a>
+</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h2><a name="Contact">Contact</a></h2>
+
+<p>
+<a href="mailto:Karsten@yajirobi.de" target="_blank">Karsten@yajirobi.de</a>
+</p>
+<p><a href="#TOC">Table of Contents</a></p>
+
+<h2><a name="VersionHints">Version Hints</a></h2>
+
+<h3>Version 3.1.2.0</h3>
+
+<ul>
+    <li>optimized code for cast and crew names with special characters</li>
+</ul>
+
+<h3>Version 3.1.1.1</h3>
+
+<ul>
+    <li>minor bugfix</li>
+</ul>
+
+<h3>Version 3.1.1.0</h3>
+
+<ul>
+    <li>Added source image info in Copy Image dialog</li>
+</ul>
+
+<h3>Version 3.1.0.0</h3>
+
+<ul>
+    <li>Copy profile image function</li>
+</ul>
+
+<h3>Version 3.0.0.0</h3>
+
+<ul>
+    <li>Several internal changes and upgrade to DVD Profiler API 3.9</li>
+</ul>
+
+<h3>Version 2.1.0.2</h3>
+
+<ul>
+<li>Bugfix when same cover images exist in US and another locality.</li>
+</ul>
+    
+<h3>Version 2.1.0.1</h3>
+
+<ul>
+<li>Bugfix when same cover images exist in US and another locality.</li>
+</ul>
+
+<h3>Version 2.1.0.0</h3>
+
+<ul>
+<li>Adapted to new API of DVD Profiler 3.8.1.</li>
+</ul>
+
+<h3>Version 2.0.0.0</h3>
+
+<ul>
+<li>Version 2 works now as fully integrated plugin in DVD Profiler.</li>
+</ul>
+  
+<h3>Version 1.2.0.0</h3>
+
+<ul>
+<li>Added ability to search for invalid file names in profile folders in the Credit Photos folder.</li>
+</ul>
+
+<h3>Version 1.1.0.0</h3>
+
+<ul>
+<li>Added ability to search for profile folders in the Credit Photos folder.</li>
+</ul>
+
+<h3>Version 1.0.0.0</h3>
+
+<ul>
+<li>Now delete will actually delete files.</li>
+</ul>
+
+<h3>Version 0.4.0.0</h3>
+
+<ul>
+<li>Still doesn't delete anything, but the look & feel of the Cover Images tab is done.</li>
+</ul>
+
+<h3>Version 0.3.0.0</h3>
+
+<ul>
+<li>Still doesn't delete anything, but the look & feel of the Scene Photos tab is done.</li>
+</ul>
+
+<h3>Version 0.1.0.0</h3>
+
+<ul>
+<li>Idea presentation version</li>
+</ul>
+<p><a href="#TOC">Table of Contents</a></p>
+</body>
+</html>

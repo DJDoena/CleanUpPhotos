@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FA8E9106-C2A4-407E-AF82-E9483A926D33}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DoenaSoft.DVDProfiler.CleanUpPhotos</RootNamespace>
+    <AssemblyName>CleanUpPhotos</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\x86\CleanUpPhotos\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>DJDSOFT.ICO</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>CleanUpPhotos.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.WindowsAPICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\PluginInterface\PluginInterface.2.cs">
+      <Link>PluginInterface.2.cs</Link>
+    </Compile>
+    <Compile Include="CleanUpListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CopyImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CopyImageForm.Designer.cs">
+      <DependentUpon>CopyImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DefaultValues.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageBoxTexts.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageBoxTexts.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\CleanUpPhotos.AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Texts.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Texts.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CopyImageForm.resx">
+      <DependentUpon>CopyImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageBoxTexts.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageBoxTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Texts.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Texts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CleanUpPhotos.snk" />
+    <None Include="DJDSOFT.ICO">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Readme\readme.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DVDProfilerXML\DVDProfilerHelper\DVDProfilerHelper\DVDProfilerHelper.csproj">
+      <Project>{461DACCA-8EBF-4C03-AD1A-C438E4EB3B36}</Project>
+      <Name>DVDProfilerHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DVDProfilerXML\DVDProfilerXML\DVDProfilerXML.csproj">
+      <Project>{2E90CC6F-892E-45B3-8812-EE52FFA3B222}</Project>
+      <Name>DVDProfilerXML</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"%25ProgramFiles%25\Inno Setup 5\iscc.exe"  ..\..\..\..\CleanUpPhotosSetup\Setup.iss</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
