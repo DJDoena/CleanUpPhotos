@@ -18,6 +18,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{342AC39A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanUpPhotos", "CleanUpPhotos\CleanUpPhotos\CleanUpPhotos.csproj", "{FA8E9106-C2A4-407E-AF82-E9483A926D33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Microsoft.WindowsAPICodePack\Core\Core.csproj", "{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shell", "Microsoft.WindowsAPICodePack\Shell\Shell.csproj", "{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -31,6 +35,10 @@ Global
 		{F7EC8FB3-5676-48E2-9820-ADB6AF796EB2}.Debug|x86.Build.0 = Debug|x86
 		{FA8E9106-C2A4-407E-AF82-E9483A926D33}.Debug|x86.ActiveCfg = Debug|x86
 		{FA8E9106-C2A4-407E-AF82-E9483A926D33}.Debug|x86.Build.0 = Debug|x86
+		{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57}.Debug|x86.ActiveCfg = Debug|x86
+		{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57}.Debug|x86.Build.0 = Debug|x86
+		{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D}.Debug|x86.ActiveCfg = Debug|x86
+		{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D}.Debug|x86.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,5 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{461DACCA-8EBF-4C03-AD1A-C438E4EB3B36} = {4F165439-7408-4A10-8784-5EDAE1CD2DBE}
 		{2E90CC6F-892E-45B3-8812-EE52FFA3B222} = {4F165439-7408-4A10-8784-5EDAE1CD2DBE}
+		{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57} = {4F165439-7408-4A10-8784-5EDAE1CD2DBE}
+		{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D} = {4F165439-7408-4A10-8784-5EDAE1CD2DBE}
 	EndGlobalSection
 EndGlobal

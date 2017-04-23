@@ -229,6 +229,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 this.ProgressWindow.Show();
                 if (TaskbarManager.IsPlatformSupported)
                 {
+                    TaskbarManager.Instance.OwnerHandle = this.Handle;
                     TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
                     TaskbarManager.Instance.SetProgressValue(0, this.ProgressWindow.ProgressBar.Maximum);
                 }
@@ -743,6 +744,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             this.ProgressWindow.Show();
             if (TaskbarManager.IsPlatformSupported)
             {
+                TaskbarManager.Instance.OwnerHandle = this.Handle;
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
                 TaskbarManager.Instance.SetProgressValue(0, this.ProgressWindow.ProgressBar.Maximum);
             }

@@ -4,3 +4,6 @@
 [submodule "PluginInterface"]
 	path = PluginInterface
 	url = https://github.com/DJDoena/PluginInterface.git
+[submodule "Microsoft.WindowsAPICodePack"]
+	path = Microsoft.WindowsAPICodePack
+	url = https://github.com/DJDoena/Microsoft.WindowsAPICodePack.git
