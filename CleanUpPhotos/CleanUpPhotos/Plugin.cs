@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Windows.Forms;
-using DoenaSoft.DVDProfiler.DVDProfilerXML;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using DoenaSoft.DVDProfiler.DVDProfilerHelper;
 using Invelos.DVDProfilerPlugin;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 {
@@ -28,54 +26,54 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         private String MenuTokenISCP = "";
         public Plugin()
         {
-            this.ApplicationPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Doena Soft\Clean Up Photos\";
-            this.SettingsFile = ApplicationPath + "CleanUpPhotosSettings.xml";
-            this.ErrorFile = Environment.GetEnvironmentVariable("TEMP") + @"\CleanUpPhotosCrash.xml";
+            ApplicationPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Doena Soft\Clean Up Photos\";
+            SettingsFile = ApplicationPath + "CleanUpPhotosSettings.xml";
+            ErrorFile = Environment.GetEnvironmentVariable("TEMP") + @"\CleanUpPhotosCrash.xml";
         }
 
         #region IDVDProfilerPlugin Members
         public void Load(IDVDProfilerAPI api)
-        {            
-            this.Api = api;
-            if(Directory.Exists(this.ApplicationPath) == false)
+        {
+            Api = api;
+            if (Directory.Exists(ApplicationPath) == false)
             {
-                Directory.CreateDirectory(this.ApplicationPath);
+                Directory.CreateDirectory(ApplicationPath);
             }
-            if(File.Exists(this.SettingsFile))
+            if (File.Exists(SettingsFile))
             {
                 try
                 {
-                    Settings = Settings.Deserialize(this.SettingsFile);
+                    Settings = Settings.Deserialize(SettingsFile);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(String.Format(MessageBoxTexts.FileCantBeRead, this.SettingsFile, ex.Message)
+                    MessageBox.Show(String.Format(MessageBoxTexts.FileCantBeRead, SettingsFile, ex.Message)
                         , MessageBoxTexts.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             CreateSettings();
-            MenuTokenISCP = this.Api.RegisterMenuItem(PluginConstants.FORMID_Main, PluginConstants.MENUID_Form
+            MenuTokenISCP = Api.RegisterMenuItem(PluginConstants.FORMID_Main, PluginConstants.MENUID_Form
                 , "Tools", Texts.PluginName, MenuId);
         }
 
         public void Unload()
         {
-            this.Api.UnregisterMenuItem(MenuTokenISCP);
+            Api.UnregisterMenuItem(MenuTokenISCP);
             try
             {
-                Settings.Serialize(this.SettingsFile);
+                Settings.Serialize(SettingsFile);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(String.Format(MessageBoxTexts.FileCantBeWritten, this.SettingsFile, ex.Message)
+                MessageBox.Show(String.Format(MessageBoxTexts.FileCantBeWritten, SettingsFile, ex.Message)
                     , MessageBoxTexts.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            this.Api = null;
+            Api = null;
         }
 
         public void HandleEvent(Int32 EventType, Object EventData)
         {
-            if(EventType == PluginConstants.EVENTID_CustomMenuClick)
+            if (EventType == PluginConstants.EVENTID_CustomMenuClick)
             {
                 this.HandleMenuClick((Int32)EventData);
             }
@@ -139,33 +137,33 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 
         private void HandleMenuClick(Int32 MenuEventID)
         {
-            if(MenuEventID == MenuId)
+            if (MenuEventID == MenuId)
             {
                 try
                 {
-                    using(MainForm mainForm = new MainForm(this.Api))
+                    using (MainForm mainForm = new MainForm(Api))
                     {
                         mainForm.ShowDialog();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     try
                     {
                         ExceptionXml exceptionXml;
 
-                        MessageBox.Show(String.Format(MessageBoxTexts.CriticalError, ex.Message, this.ErrorFile)
+                        MessageBox.Show(String.Format(MessageBoxTexts.CriticalError, ex.Message, ErrorFile)
                             , MessageBoxTexts.CriticalErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        if(File.Exists(this.ErrorFile))
+                        if (File.Exists(ErrorFile))
                         {
                             File.Delete(ErrorFile);
                         }
                         exceptionXml = new ExceptionXml(ex);
-                        Serializer<ExceptionXml>.Serialize(ErrorFile, exceptionXml);
+                        DVDProfilerSerializer<ExceptionXml>.Serialize(ErrorFile, exceptionXml);
                     }
-                    catch(Exception inEx)
+                    catch (Exception inEx)
                     {
-                        MessageBox.Show(String.Format(MessageBoxTexts.FileCantBeWritten, this.ErrorFile, inEx.Message), MessageBoxTexts.ErrorHeader
+                        MessageBox.Show(String.Format(MessageBoxTexts.FileCantBeWritten, ErrorFile, inEx.Message), MessageBoxTexts.ErrorHeader
                             , MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -174,15 +172,15 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 
         private static void CreateSettings()
         {
-            if(Settings == null)
+            if (Settings == null)
             {
                 Settings = new Settings();
             }
-            if(Settings.MainForm == null)
+            if (Settings.MainForm == null)
             {
                 Settings.MainForm = new SizableForm();
             }
-            if(Settings.DefaultValues == null)
+            if (Settings.DefaultValues == null)
             {
                 Settings.DefaultValues = new DefaultValues();
             }

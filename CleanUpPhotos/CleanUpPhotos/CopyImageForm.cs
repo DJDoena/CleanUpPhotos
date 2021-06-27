@@ -1,13 +1,8 @@
-﻿using DoenaSoft.DVDProfiler.DVDProfilerXML.Version390;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using DoenaSoft.DVDProfiler.DVDProfilerXML.Version400;
 
 namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 {
@@ -29,9 +24,9 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             BaseDir = baseDir;
             SourceFile = sourceFile;
 
-            GetProfiles(collection);
+            this.GetProfiles(collection);
 
-            InitializeComponent();
+            this.InitializeComponent();
 
             ImageSourceTextBox.Text = source;
 
@@ -46,7 +41,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             ExistingProfilesComboBox.DisplayMember = "Value";
             ExistingProfilesComboBox.ValueMember = "Key";
             ExistingProfilesComboBox.SelectedIndex = -1;
-            ExistingProfilesComboBox.SelectedIndexChanged += OnExistingProfilesComboBoxSelectedIndexChanged;
+            ExistingProfilesComboBox.SelectedIndexChanged += this.OnExistingProfilesComboBoxSelectedIndexChanged;
         }
 
         private void GetProfiles(Collection collection)
@@ -136,7 +131,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     File.SetAttributes(targetFile, FileAttributes.Normal | FileAttributes.Archive);
                 }
                 File.Copy(SourceFile, targetFile, true);
-                Close();
+                this.Close();
             }
             catch (Exception ex)
             {

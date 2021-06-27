@@ -1,15 +1,14 @@
-﻿using DoenaSoft.DVDProfiler.DVDProfilerHelper;
-using DoenaSoft.DVDProfiler.DVDProfilerXML;
-using DoenaSoft.DVDProfiler.DVDProfilerXML.Version390;
-using Invelos.DVDProfilerPlugin;
-using Microsoft.WindowsAPICodePack.Taskbar;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using DoenaSoft.DVDProfiler.DVDProfilerHelper;
+using DoenaSoft.DVDProfiler.DVDProfilerXML;
+using DoenaSoft.DVDProfiler.DVDProfilerXML.Version400;
+using Invelos.DVDProfilerPlugin;
+using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 {
@@ -22,12 +21,12 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 
             internal ListBoxItem(String name)
             {
-                this.Name = name;
+                Name = name;
             }
 
             public override String ToString()
             {
-                return (this.Name);
+                return (Name);
             }
         }
 
@@ -38,7 +37,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             internal ListBoxItemWithDVD(String name, DVD dvd)
                 : base(name)
             {
-                this.DVD = dvd;
+                DVD = dvd;
             }
         }
 
@@ -49,7 +48,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             internal ListBoxItemWithDVDList(String name, List<DVD> dvdList)
                 : base(name)
             {
-                this.DVDList = dvdList;
+                DVDList = dvdList;
             }
         }
 
@@ -64,9 +63,9 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             internal ListBoxItemWithNames(String name, DVD dvd, List<String> validList, List<String> invalidList)
                 : base(name)
             {
-                this.DVD = dvd;
-                this.ValidList = validList;
-                this.InvalidList = invalidList;
+                DVD = dvd;
+                ValidList = validList;
+                InvalidList = invalidList;
             }
         }
         #endregion
@@ -92,9 +91,9 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         #region Constructor
         public MainForm(IDVDProfilerAPI api)
         {
-            this.Api = api;
-            this.CanClose = true;
-            InitializeComponent();
+            Api = api;
+            CanClose = true;
+            this.InitializeComponent();
         }
         #endregion
 
@@ -115,13 +114,13 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         private void OnMainFormLoad(Object sender, EventArgs e)
         {
             this.LayoutForm();
-            this.CleanCoverImagesCheckBox.Checked = Plugin.Settings.DefaultValues.CleanUpCoverImages;
-            this.SelectDatabaseFolderButton.Enabled = Plugin.Settings.DefaultValues.CleanUpCoverImages;
-            this.CoverImagesTabControl.Enabled = this.CleanCoverImagesCheckBox.Checked;
+            CleanCoverImagesCheckBox.Checked = Plugin.Settings.DefaultValues.CleanUpCoverImages;
+            SelectDatabaseFolderButton.Enabled = Plugin.Settings.DefaultValues.CleanUpCoverImages;
+            CoverImagesTabControl.Enabled = CleanCoverImagesCheckBox.Checked;
             //this.DatabaseFolderTextbox.Text = Environment.ExpandEnvironmentVariables(Plugin.Settings.DefaultValues.DatabaseFolder);
-            this.DatabaseFolderTextbox.Text = this.GetDatabaseFolder();
-            this.CreditPhotosFolderTextBox.Text = Plugin.Settings.DefaultValues.CreditPhotosFolder;
-            this.ScenePhotosFolderTextbox.Text = Plugin.Settings.DefaultValues.ScenePhotosFolder;
+            DatabaseFolderTextbox.Text = this.GetDatabaseFolder();
+            CreditPhotosFolderTextBox.Text = Plugin.Settings.DefaultValues.CreditPhotosFolder;
+            ScenePhotosFolderTextbox.Text = Plugin.Settings.DefaultValues.ScenePhotosFolder;
             if (Plugin.Settings.DefaultValues.CurrentVersion != this.GetType().Assembly.GetName().Version.ToString())
             {
                 this.OpenReadMe();
@@ -136,102 +135,102 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             #region Init UI
             #region Credit Photos
             #region General
-            this.ValidCreditPhotosFileGeneralListBox.ClearItems();
-            this.ValidCreditPhotosProfileGeneralListBox.ClearItems();
-            ResetPictureBox(this.ValidCreditPhotosGeneralPictureBox);
-            this.InvalidCreditPhotosFileGeneralListBox.ClearItems();
-            ResetPictureBox(this.InvalidCreditPhotosGeneralPictureBox);
-            this.RemoveInvalidCreditPhotosGeneralButton.Enabled = false;
-            this.RemoveAllInvalidCreditPhotosGeneralButton.Enabled = false;
+            ValidCreditPhotosFileGeneralListBox.ClearItems();
+            ValidCreditPhotosProfileGeneralListBox.ClearItems();
+            ResetPictureBox(ValidCreditPhotosGeneralPictureBox);
+            InvalidCreditPhotosFileGeneralListBox.ClearItems();
+            ResetPictureBox(InvalidCreditPhotosGeneralPictureBox);
+            RemoveInvalidCreditPhotosGeneralButton.Enabled = false;
+            RemoveAllInvalidCreditPhotosGeneralButton.Enabled = false;
             #endregion
             #region Folder
-            this.ValidCreditPhotosFolderFolderListBox.ClearItems();
-            this.ValidCreditPhotosProfileFolderTextBox.Text = String.Empty;
-            this.ValidCreditPhotosFileFolderListBox.ClearItems();
-            ResetPictureBox(this.ValidCreditPhotosFolderPictureBox);
-            this.InvalidCreditPhotosFolderFolderListBox.ClearItems();
-            this.InvalidCreditPhotosFileFolderListBox.ClearItems();
-            ResetPictureBox(this.InvalidCreditPhotosFolderPictureBox);
-            this.RemoveInvalidCreditPhotosFolderButton.Enabled = false;
-            this.RemoveAllInvalidCreditPhotosFolderButton.Enabled = false;
+            ValidCreditPhotosFolderFolderListBox.ClearItems();
+            ValidCreditPhotosProfileFolderTextBox.Text = String.Empty;
+            ValidCreditPhotosFileFolderListBox.ClearItems();
+            ResetPictureBox(ValidCreditPhotosFolderPictureBox);
+            InvalidCreditPhotosFolderFolderListBox.ClearItems();
+            InvalidCreditPhotosFileFolderListBox.ClearItems();
+            ResetPictureBox(InvalidCreditPhotosFolderPictureBox);
+            RemoveInvalidCreditPhotosFolderButton.Enabled = false;
+            RemoveAllInvalidCreditPhotosFolderButton.Enabled = false;
             #endregion
             #region Profile
-            this.ValidCreditPhotosFolderProfileListBox.ClearItems();
-            this.ValidCreditPhotosProfileProfileTextBox.Text = String.Empty;
-            this.ValidCreditPhotosFileProfileListBox.ClearItems();
-            ResetPictureBox(this.ValidCreditPhotosProfilePictureBox);
-            this.InvalidCreditPhotosFolderProfileListBox.ClearItems();
-            this.InvalidCreditPhotosInvalidFileProfileListBox.ClearItems();
-            ResetPictureBox(this.InvalidCreditPhotosInvalidFileProfilePictureBox);
-            this.InvalidCreditPhotosValidFileProfileListBox.ClearItems();
-            ResetPictureBox(this.InvalidCreditPhotosValidFileProfilePictureBox);
-            this.RemoveInvalidCreditPhotosProfileButton.Enabled = false;
-            this.RemoveAllInvalidCreditPhotosProfileButton.Enabled = false;
+            ValidCreditPhotosFolderProfileListBox.ClearItems();
+            ValidCreditPhotosProfileProfileTextBox.Text = String.Empty;
+            ValidCreditPhotosFileProfileListBox.ClearItems();
+            ResetPictureBox(ValidCreditPhotosProfilePictureBox);
+            InvalidCreditPhotosFolderProfileListBox.ClearItems();
+            InvalidCreditPhotosInvalidFileProfileListBox.ClearItems();
+            ResetPictureBox(InvalidCreditPhotosInvalidFileProfilePictureBox);
+            InvalidCreditPhotosValidFileProfileListBox.ClearItems();
+            ResetPictureBox(InvalidCreditPhotosValidFileProfilePictureBox);
+            RemoveInvalidCreditPhotosProfileButton.Enabled = false;
+            RemoveAllInvalidCreditPhotosProfileButton.Enabled = false;
             #endregion
             #endregion
             #region Scene Photos
-            this.ValidScenePhotosFolderListBox.ClearItems();
-            this.ValidScenePhotosProfileTextBox.Text = String.Empty;
-            this.ValidScenePhotosFileListBox.ClearItems();
-            ResetPictureBox(this.ValidScenePhotosPictureBox);
-            this.InvalidScenePhotosFolderListBox.ClearItems();
-            this.InvalidScenePhotosFileListBox.ClearItems();
-            ResetPictureBox(this.InvalidScenePhotosPictureBox);
-            this.RemoveInvalidScenePhotosButton.Enabled = false;
-            this.RemoveAllInvalidScenePhotosButton.Enabled = false;
+            ValidScenePhotosFolderListBox.ClearItems();
+            ValidScenePhotosProfileTextBox.Text = String.Empty;
+            ValidScenePhotosFileListBox.ClearItems();
+            ResetPictureBox(ValidScenePhotosPictureBox);
+            InvalidScenePhotosFolderListBox.ClearItems();
+            InvalidScenePhotosFileListBox.ClearItems();
+            ResetPictureBox(InvalidScenePhotosPictureBox);
+            RemoveInvalidScenePhotosButton.Enabled = false;
+            RemoveAllInvalidScenePhotosButton.Enabled = false;
             #endregion
             #region Cover Images
-            this.ValidCoverImagesFolderListBox.ClearItems();
-            this.ValidCoverImagesProfileTextBox.Text = String.Empty;
-            this.ValidCoverImagesFileListBox.ClearItems();
-            ResetPictureBox(this.ValidCoverImagesPictureBox);
-            this.InvalidCoverImagesFolderListBox.ClearItems();
-            this.InvalidCoverImagesFileListBox.ClearItems();
-            ResetPictureBox(this.InvalidCoverImagesPictureBox);
-            this.RemoveInvalidCoverImagesButton.Enabled = false;
-            this.RemoveAllInvalidCoverImagesButton.Enabled = false;
+            ValidCoverImagesFolderListBox.ClearItems();
+            ValidCoverImagesProfileTextBox.Text = String.Empty;
+            ValidCoverImagesFileListBox.ClearItems();
+            ResetPictureBox(ValidCoverImagesPictureBox);
+            InvalidCoverImagesFolderListBox.ClearItems();
+            InvalidCoverImagesFileListBox.ClearItems();
+            ResetPictureBox(InvalidCoverImagesPictureBox);
+            RemoveInvalidCoverImagesButton.Enabled = false;
+            RemoveAllInvalidCoverImagesButton.Enabled = false;
             #endregion
             #endregion
-            if (Directory.Exists(this.CreditPhotosFolderTextBox.Text) == false)
+            if (Directory.Exists(CreditPhotosFolderTextBox.Text) == false)
             {
                 MessageBox.Show("Credit Photos folder not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (Directory.Exists(this.ScenePhotosFolderTextbox.Text) == false)
+            if (Directory.Exists(ScenePhotosFolderTextbox.Text) == false)
             {
                 MessageBox.Show("Scene Photos folder not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             coverImagesPath = String.Empty;
-            if (this.CleanCoverImagesCheckBox.Checked)
+            if (CleanCoverImagesCheckBox.Checked)
             {
-                coverImagesPath = Path.Combine(this.DatabaseFolderTextbox.Text, "Images");
+                coverImagesPath = Path.Combine(DatabaseFolderTextbox.Text, "Images");
                 if (Directory.Exists(coverImagesPath) == false)
                 {
                     MessageBox.Show("Cover Images folder file not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
-            this.CanClose = false;
+            CanClose = false;
             this.UseWaitCursor = true;
             this.Cursor = Cursors.WaitCursor;
-            if (this.Collection == null)
+            if (Collection == null)
             {
                 Thread thread;
                 Object[] allIds;
 
-                this.ProgressWindow = new ProgressWindow();
-                this.ProgressWindow.ProgressBar.Minimum = 0;
-                this.ProgressWindow.ProgressBar.Step = 1;
-                this.ProgressWindow.CanClose = false;
-                allIds = (Object[])(this.Api.GetAllProfileIDs());
-                this.ProgressWindow.ProgressBar.Maximum = allIds.Length;
-                this.ProgressWindow.Show();
+                ProgressWindow = new ProgressWindow();
+                ProgressWindow.ProgressBar.Minimum = 0;
+                ProgressWindow.ProgressBar.Step = 1;
+                ProgressWindow.CanClose = false;
+                allIds = (Object[])(Api.GetAllProfileIDs());
+                ProgressWindow.ProgressBar.Maximum = allIds.Length;
+                ProgressWindow.Show();
                 if (TaskbarManager.IsPlatformSupported)
                 {
                     TaskbarManager.Instance.OwnerHandle = this.Handle;
                     TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
-                    TaskbarManager.Instance.SetProgressValue(0, this.ProgressWindow.ProgressBar.Maximum);
+                    TaskbarManager.Instance.SetProgressValue(0, ProgressWindow.ProgressBar.Maximum);
                 }
                 thread = new Thread(new ParameterizedThreadStart(this.ThreadRun));
                 thread.IsBackground = false;
@@ -239,7 +238,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             }
             else
             {
-                this.ThreadFinished(this.Collection, coverImagesPath);
+                this.ThreadFinished(Collection, coverImagesPath);
             }
         }
 
@@ -252,21 +251,21 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
                 TaskbarManager.Instance.OwnerHandle = IntPtr.Zero;
             }
-            if (this.ProgressWindow != null)
+            if (ProgressWindow != null)
             {
-                this.ProgressWindow.CanClose = true;
-                this.ProgressWindow.Close();
-                this.ProgressWindow.Dispose();
-                this.ProgressWindow = null;
+                ProgressWindow.CanClose = true;
+                ProgressWindow.Close();
+                ProgressWindow.Dispose();
+                ProgressWindow = null;
             }
-            this.Collection = collection;
-            if (this.Collection != null)
+            Collection = collection;
+            if (Collection != null)
             {
                 this.ProcessCreditPhotosGeneral(collection.DVDList);
                 validCreditPhotos = this.ProcessCreditPhotosFolder(collection.DVDList);
                 this.ProcessCreditPhotosProfile(validCreditPhotos);
                 this.ProcessScenePhotos(collection.DVDList);
-                if (this.CleanCoverImagesCheckBox.Checked)
+                if (CleanCoverImagesCheckBox.Checked)
                 {
                     this.ProcessCoverImages(coverImagesPath, collection.DVDList);
                 }
@@ -274,7 +273,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             }
             this.Cursor = Cursors.Default;
             this.UseWaitCursor = false;
-            this.CanClose = true;
+            CanClose = true;
         }
 
         private void OnReadMeToolStripMenuItemClick(Object sender, EventArgs e)
@@ -284,7 +283,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 
         private void OnMainFormFormClosing(Object sender, FormClosingEventArgs e)
         {
-            if (this.CanClose == false)
+            if (CanClose == false)
             {
                 e.Cancel = true;
                 return;
@@ -325,7 +324,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 ));
             validCoverImages = new Dictionary<String, DVD>(coverImages.Count);
 
-            step = StartProgress(dvdList.Length);
+            step = this.StartProgress(dvdList.Length);
             index = 0;
             foreach (DVD dvd in dvdList)
             {
@@ -356,11 +355,11 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     }
                 } while ((indexOf1 != -1) || (indexOf2 != -1));
 
-                UpdateProgressBar(index, step);
+                this.UpdateProgressBar(index, step);
                 index++;
             }
 
-            EndProgress();
+            this.EndProgress();
 
             coverImagesListBoxItems = new List<ListBoxItem>(validCoverImages.Count);
             foreach (KeyValuePair<String, DVD> kvp in validCoverImages)
@@ -368,10 +367,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 coverImagesListBoxItems.Add(new ListBoxItemWithDVD(kvp.Key, kvp.Value));
             }
             coverImagesListBoxItems.Sort(new Comparison<ListBoxItem>(CompareListBoxItems));
-            this.ValidCoverImagesFolderListBox.Items.AddRange(coverImagesListBoxItems.ToArray());
-            if (this.ValidCoverImagesFolderListBox.Items.Count > 0)
+            ValidCoverImagesFolderListBox.Items.AddRange(coverImagesListBoxItems.ToArray());
+            if (ValidCoverImagesFolderListBox.Items.Count > 0)
             {
-                this.ValidCoverImagesFolderListBox.SelectedIndex = 0;
+                ValidCoverImagesFolderListBox.SelectedIndex = 0;
             }
             invalidCoverImages = new Dictionary<String, Boolean>(coverImages.Count);
             foreach (String fileName in coverImages)
@@ -394,10 +393,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 coverImagesListBoxItems.Add(new ListBoxItem(kvp.Key));
             }
             coverImagesListBoxItems.Sort(new Comparison<ListBoxItem>(CompareListBoxItems));
-            this.InvalidCoverImagesFolderListBox.Items.AddRange(coverImagesListBoxItems.ToArray());
-            if (this.InvalidCoverImagesFolderListBox.Items.Count > 0)
+            InvalidCoverImagesFolderListBox.Items.AddRange(coverImagesListBoxItems.ToArray());
+            if (InvalidCoverImagesFolderListBox.Items.Count > 0)
             {
-                this.InvalidCoverImagesFolderListBox.SelectedIndex = 0;
+                InvalidCoverImagesFolderListBox.SelectedIndex = 0;
             }
         }
 
@@ -409,12 +408,12 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             Int32 index;
             Int32 step;
 
-            scenePhotos = new List<String>(Directory.GetDirectories(this.ScenePhotosFolderTextbox.Text));
+            scenePhotos = new List<String>(Directory.GetDirectories(ScenePhotosFolderTextbox.Text));
             scenePhotos = scenePhotos.ConvertAll<String>(new Converter<String, String>(ConvertAllDirectory));
             validScenePhotos = new Dictionary<String, DVD>(scenePhotos.Count);
 
 
-            step = StartProgress(dvdList.Length);
+            step = this.StartProgress(dvdList.Length);
             index = 0;
             foreach (DVD dvd in dvdList)
             {
@@ -427,11 +426,11 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     scenePhotos.RemoveAt(indexOf);
                 }
 
-                UpdateProgressBar(index, step);
+                this.UpdateProgressBar(index, step);
                 index++;
             }
 
-            EndProgress();
+            this.EndProgress();
 
             scenePhotosListBoxItems = new List<ListBoxItem>(validScenePhotos.Count);
             foreach (KeyValuePair<String, DVD> kvp in validScenePhotos)
@@ -439,10 +438,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 scenePhotosListBoxItems.Add(new ListBoxItemWithDVD(kvp.Key, kvp.Value));
             }
             scenePhotosListBoxItems.Sort(new Comparison<ListBoxItem>(CompareListBoxItems));
-            this.ValidScenePhotosFolderListBox.Items.AddRange(scenePhotosListBoxItems.ToArray());
-            if (this.ValidScenePhotosFolderListBox.Items.Count > 0)
+            ValidScenePhotosFolderListBox.Items.AddRange(scenePhotosListBoxItems.ToArray());
+            if (ValidScenePhotosFolderListBox.Items.Count > 0)
             {
-                this.ValidScenePhotosFolderListBox.SelectedIndex = 0;
+                ValidScenePhotosFolderListBox.SelectedIndex = 0;
             }
             scenePhotosListBoxItems = new List<ListBoxItem>(scenePhotos.Count);
             foreach (String folderName in scenePhotos)
@@ -450,10 +449,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 scenePhotosListBoxItems.Add(new ListBoxItem(folderName));
             }
             scenePhotosListBoxItems.Sort(new Comparison<ListBoxItem>(CompareListBoxItems));
-            this.InvalidScenePhotosFolderListBox.Items.AddRange(scenePhotosListBoxItems.ToArray());
-            if (this.InvalidScenePhotosFolderListBox.Items.Count > 0)
+            InvalidScenePhotosFolderListBox.Items.AddRange(scenePhotosListBoxItems.ToArray());
+            if (InvalidScenePhotosFolderListBox.Items.Count > 0)
             {
-                this.InvalidScenePhotosFolderListBox.SelectedIndex = 0;
+                InvalidScenePhotosFolderListBox.SelectedIndex = 0;
             }
         }
 
@@ -465,11 +464,11 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             Int32 index;
             Int32 step;
 
-            creditPhotos = new List<String>(Directory.GetDirectories(this.CreditPhotosFolderTextBox.Text));
+            creditPhotos = new List<String>(Directory.GetDirectories(CreditPhotosFolderTextBox.Text));
             creditPhotos = creditPhotos.ConvertAll<String>(new Converter<String, String>(ConvertAllDirectory));
             validCreditPhotos = new Dictionary<String, DVD>(creditPhotos.Count);
 
-            step = StartProgress(dvdList.Length);
+            step = this.StartProgress(dvdList.Length);
             index = 0;
 
             foreach (DVD dvd in dvdList)
@@ -483,11 +482,11 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     creditPhotos.RemoveAt(indexOf);
                 }
 
-                UpdateProgressBar(index, step);
+                this.UpdateProgressBar(index, step);
                 index++;
             }
 
-            EndProgress();
+            this.EndProgress();
 
             creditPhotosFolderListBoxItems = new List<ListBoxItem>(validCreditPhotos.Count);
             foreach (KeyValuePair<String, DVD> kvp in validCreditPhotos)
@@ -495,10 +494,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 creditPhotosFolderListBoxItems.Add(new ListBoxItemWithDVD(kvp.Key, kvp.Value));
             }
             creditPhotosFolderListBoxItems.Sort(new Comparison<ListBoxItem>(CompareListBoxItems));
-            this.ValidCreditPhotosFolderFolderListBox.Items.AddRange(creditPhotosFolderListBoxItems.ToArray());
-            if (this.ValidCreditPhotosFolderFolderListBox.Items.Count > 0)
+            ValidCreditPhotosFolderFolderListBox.Items.AddRange(creditPhotosFolderListBoxItems.ToArray());
+            if (ValidCreditPhotosFolderFolderListBox.Items.Count > 0)
             {
-                this.ValidCreditPhotosFolderFolderListBox.SelectedIndex = 0;
+                ValidCreditPhotosFolderFolderListBox.SelectedIndex = 0;
             }
             creditPhotosFolderListBoxItems = new List<ListBoxItem>(creditPhotos.Count);
             foreach (String folderName in creditPhotos)
@@ -506,10 +505,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 creditPhotosFolderListBoxItems.Add(new ListBoxItem(folderName));
             }
             creditPhotosFolderListBoxItems.Sort(new Comparison<ListBoxItem>(CompareListBoxItems));
-            this.InvalidCreditPhotosFolderFolderListBox.Items.AddRange(creditPhotosFolderListBoxItems.ToArray());
-            if (this.InvalidCreditPhotosFolderFolderListBox.Items.Count > 0)
+            InvalidCreditPhotosFolderFolderListBox.Items.AddRange(creditPhotosFolderListBoxItems.ToArray());
+            if (InvalidCreditPhotosFolderFolderListBox.Items.Count > 0)
             {
-                this.InvalidCreditPhotosFolderFolderListBox.SelectedIndex = 0;
+                InvalidCreditPhotosFolderFolderListBox.SelectedIndex = 0;
             }
             return (validCreditPhotos);
         }
@@ -523,7 +522,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 
             creditPhotosProfileListBoxItems = new List<ListBoxItemWithNames>(validCreditPhotosBase.Count);
 
-            step = StartProgress(validCreditPhotosBase.Count);
+            step = this.StartProgress(validCreditPhotosBase.Count);
 
             index = 0;
             foreach (KeyValuePair<String, DVD> kvp in validCreditPhotosBase)
@@ -532,7 +531,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 List<String> creditPhotos;
                 Dictionary<String, Boolean> validCreditPhotos;
 
-                path = Path.Combine(this.CreditPhotosFolderTextBox.Text, kvp.Key);
+                path = Path.Combine(CreditPhotosFolderTextBox.Text, kvp.Key);
                 creditPhotos = new List<String>(Directory.GetFiles(path, "*.*", SearchOption.AllDirectories));
 
                 creditPhotos = creditPhotos.ConvertAll(item => ConvertAllFile(item, path));
@@ -541,23 +540,23 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 {
                     foreach (Object potentialCastMember in kvp.Value.CastList)
                     {
-                        ProcessPerson(validCreditPhotos, creditPhotos, potentialCastMember);
+                        this.ProcessPerson(validCreditPhotos, creditPhotos, potentialCastMember);
                     }
                 }
                 if ((kvp.Value.CrewList != null) && (kvp.Value.CrewList.Length > 0))
                 {
                     foreach (Object potentialCrewMember in kvp.Value.CrewList)
                     {
-                        ProcessPerson(validCreditPhotos, creditPhotos, potentialCrewMember);
+                        this.ProcessPerson(validCreditPhotos, creditPhotos, potentialCrewMember);
                     }
                 }
                 creditPhotosProfileListBoxItems.Add(new ListBoxItemWithNames(kvp.Key, kvp.Value, new List<String>(validCreditPhotos.Keys), creditPhotos));
 
-                UpdateProgressBar(index, step);
+                this.UpdateProgressBar(index, step);
                 index++;
             }
 
-            EndProgress();
+            this.EndProgress();
 
             validCreditPhotosProfileListBoxItems = new List<ListBoxItemWithNames>(creditPhotosProfileListBoxItems.Count);
             for (Int32 i = creditPhotosProfileListBoxItems.Count - 1; i >= 0; i--)
@@ -571,16 +570,16 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 }
             }
             validCreditPhotosProfileListBoxItems.Sort(new Comparison<ListBoxItemWithNames>(CompareListBoxItems));
-            this.ValidCreditPhotosFolderProfileListBox.Items.AddRange(validCreditPhotosProfileListBoxItems.ToArray());
-            if (this.ValidCreditPhotosFolderProfileListBox.Items.Count > 0)
+            ValidCreditPhotosFolderProfileListBox.Items.AddRange(validCreditPhotosProfileListBoxItems.ToArray());
+            if (ValidCreditPhotosFolderProfileListBox.Items.Count > 0)
             {
-                this.ValidCreditPhotosFolderProfileListBox.SelectedIndex = 0;
+                ValidCreditPhotosFolderProfileListBox.SelectedIndex = 0;
             }
             creditPhotosProfileListBoxItems.Sort(new Comparison<ListBoxItemWithNames>(CompareListBoxItems));
-            this.InvalidCreditPhotosFolderProfileListBox.Items.AddRange(creditPhotosProfileListBoxItems.ToArray());
-            if (this.InvalidCreditPhotosFolderProfileListBox.Items.Count > 0)
+            InvalidCreditPhotosFolderProfileListBox.Items.AddRange(creditPhotosProfileListBoxItems.ToArray());
+            if (InvalidCreditPhotosFolderProfileListBox.Items.Count > 0)
             {
-                this.InvalidCreditPhotosFolderProfileListBox.SelectedIndex = 0;
+                InvalidCreditPhotosFolderProfileListBox.SelectedIndex = 0;
             }
         }
 
@@ -600,14 +599,14 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 
                     extendedfileName
                         = ProfilePhotoHelper.FileNameFromCreditName(person.FirstName, person.MiddleName, person.LastName, person.BirthYear);
-                    success = ProcessEntry(validCreditPhotos, creditPhotos, extendedfileName);
+                    success = this.ProcessEntry(validCreditPhotos, creditPhotos, extendedfileName);
                 }
                 if (success == false)
                 {
                     String fileName;
 
                     fileName = ProfilePhotoHelper.FileNameFromCreditName(person.FirstName, person.MiddleName, person.LastName, 0);
-                    ProcessEntry(validCreditPhotos, creditPhotos, fileName);
+                    this.ProcessEntry(validCreditPhotos, creditPhotos, fileName);
                 }
             }
         }
@@ -645,7 +644,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             Int32 index;
             Int32 step;
 
-            creditPhotos = new List<String>(Directory.GetFiles(this.CreditPhotosFolderTextBox.Text, "*.*"
+            creditPhotos = new List<String>(Directory.GetFiles(CreditPhotosFolderTextBox.Text, "*.*"
                           , SearchOption.TopDirectoryOnly));
             creditPhotos = creditPhotos.ConvertAll((input) =>
                     {
@@ -657,7 +656,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 );
             validCreditPhotos = new Dictionary<String, List<DVD>>(creditPhotos.Count);
 
-            step = StartProgress(dvdList.Length);
+            step = this.StartProgress(dvdList.Length);
             index = 0;
             foreach (DVD dvd in dvdList)
             {
@@ -676,16 +675,16 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     }
                 }
 
-                UpdateProgressBar(index, step);
+                this.UpdateProgressBar(index, step);
                 index++;
             }
 
-            EndProgress();
+            this.EndProgress();
 
             creditPhotosListBoxItems = new List<ListBoxItem>(validCreditPhotos.Count);
             foreach (KeyValuePair<String, List<DVD>> kvp in validCreditPhotos)
             {
-                kvp.Value.Sort(new Comparison<DVD>(delegate(DVD left, DVD right)
+                kvp.Value.Sort(new Comparison<DVD>(delegate (DVD left, DVD right)
                         {
                             return (left.SortTitle.CompareTo(right.SortTitle));
                         }
@@ -693,10 +692,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 creditPhotosListBoxItems.Add(new ListBoxItemWithDVDList(kvp.Key, kvp.Value));
             }
             creditPhotosListBoxItems.Sort(new Comparison<ListBoxItem>(CompareListBoxItems));
-            this.ValidCreditPhotosFileGeneralListBox.Items.AddRange(creditPhotosListBoxItems.ToArray());
-            if (this.ValidCreditPhotosFileGeneralListBox.Items.Count > 0)
+            ValidCreditPhotosFileGeneralListBox.Items.AddRange(creditPhotosListBoxItems.ToArray());
+            if (ValidCreditPhotosFileGeneralListBox.Items.Count > 0)
             {
-                this.ValidCreditPhotosFileGeneralListBox.SelectedIndex = 0;
+                ValidCreditPhotosFileGeneralListBox.SelectedIndex = 0;
             }
             creditPhotosListBoxItems = new List<ListBoxItem>(creditPhotos.Count);
             foreach (String fileName in creditPhotos)
@@ -704,16 +703,16 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 creditPhotosListBoxItems.Add(new ListBoxItem(fileName));
             }
             creditPhotosListBoxItems.Sort(new Comparison<ListBoxItem>(CompareListBoxItems));
-            this.InvalidCreditPhotosFileGeneralListBox.Items.AddRange(creditPhotosListBoxItems.ToArray());
-            if (this.InvalidCreditPhotosFileGeneralListBox.Items.Count > 0)
+            InvalidCreditPhotosFileGeneralListBox.Items.AddRange(creditPhotosListBoxItems.ToArray());
+            if (InvalidCreditPhotosFileGeneralListBox.Items.Count > 0)
             {
-                this.InvalidCreditPhotosFileGeneralListBox.SelectedIndex = 0;
+                InvalidCreditPhotosFileGeneralListBox.SelectedIndex = 0;
             }
         }
 
         private void UpdateProgressBar(Int32 index, Int32 step)
         {
-            UpdateProgressBar();
+            this.UpdateProgressBar();
 
             if ((index % step) == 0)
             {
@@ -728,27 +727,27 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
                 TaskbarManager.Instance.OwnerHandle = IntPtr.Zero;
             }
-            this.ProgressWindow.CanClose = true;
-            this.ProgressWindow.Close();
-            this.ProgressWindow.Dispose();
-            this.ProgressWindow = null;
+            ProgressWindow.CanClose = true;
+            ProgressWindow.Close();
+            ProgressWindow.Dispose();
+            ProgressWindow = null;
         }
 
         private Int32 StartProgress(Int32 count)
         {
             Int32 step;
 
-            this.ProgressWindow = new ProgressWindow();
-            this.ProgressWindow.ProgressBar.Minimum = 0;
-            this.ProgressWindow.ProgressBar.Step = 1;
-            this.ProgressWindow.CanClose = false;
-            this.ProgressWindow.ProgressBar.Maximum = count;
-            this.ProgressWindow.Show();
+            ProgressWindow = new ProgressWindow();
+            ProgressWindow.ProgressBar.Minimum = 0;
+            ProgressWindow.ProgressBar.Step = 1;
+            ProgressWindow.CanClose = false;
+            ProgressWindow.ProgressBar.Maximum = count;
+            ProgressWindow.Show();
             if (TaskbarManager.IsPlatformSupported)
             {
                 TaskbarManager.Instance.OwnerHandle = this.Handle;
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
-                TaskbarManager.Instance.SetProgressValue(0, this.ProgressWindow.ProgressBar.Maximum);
+                TaskbarManager.Instance.SetProgressValue(0, ProgressWindow.ProgressBar.Maximum);
             }
 
             step = GetStep(count);
@@ -842,7 +841,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             String coverImage;
             FileInfo fi;
 
-            dvdInfo = this.Api.GetDisplayedDVD();
+            dvdInfo = Api.GetDisplayedDVD();
             coverImage = dvdInfo.GetCoverImageFilename(true, false);
             if (String.IsNullOrEmpty(coverImage))
             {
@@ -876,7 +875,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     String xml;
 
                     xml = (String)(this.Invoke(new GetProfileDataDelegate(this.GetProfileData), allIds[i]));
-                    dvd = Serializer<DVD>.FromString(xml, DVD.DefaultEncoding);
+                    dvd = DVDProfilerSerializer<DVD>.FromString(xml, DVD.DefaultEncoding);
                     dvdList.Add(dvd);
 
                     this.Invoke(new ProgressBarDelegate(this.UpdateProgressBar));
@@ -886,7 +885,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, MessageBoxTexts.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Invoke(new Action(() => MessageBox.Show(ex.Message, MessageBoxTexts.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error)));
             }
             finally
             {
@@ -896,10 +895,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 
         private void UpdateProgressBar()
         {
-            this.ProgressWindow.ProgressBar.PerformStep();
+            ProgressWindow.ProgressBar.PerformStep();
             if (TaskbarManager.IsPlatformSupported)
             {
-                TaskbarManager.Instance.SetProgressValue(this.ProgressWindow.ProgressBar.Value, this.ProgressWindow.ProgressBar.Maximum);
+                TaskbarManager.Instance.SetProgressValue(ProgressWindow.ProgressBar.Value, ProgressWindow.ProgressBar.Maximum);
             }
         }
 
@@ -908,7 +907,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             IDVDInfo dvdInfo;
             String xml;
 
-            this.Api.DVDByProfileID(out dvdInfo, (id).ToString(), -1, -1);
+            Api.DVDByProfileID(out dvdInfo, (id).ToString(), -1, -1);
             xml = dvdInfo.GetXML(true);
             return (xml);
         }
@@ -1035,28 +1034,28 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.ValidCreditPhotosFileGeneralListBox.SelectedIndex;
-            this.ValidCreditPhotosProfileGeneralListBox.ClearItems();
-            ResetPictureBox(this.ValidCreditPhotosGeneralPictureBox);
+            index = ValidCreditPhotosFileGeneralListBox.SelectedIndex;
+            ValidCreditPhotosProfileGeneralListBox.ClearItems();
+            ResetPictureBox(ValidCreditPhotosGeneralPictureBox);
             if (index != -1)
             {
                 ListBoxItemWithDVDList item;
 
-                item = (ListBoxItemWithDVDList)(this.ValidCreditPhotosFileGeneralListBox.SelectedItem);
-                this.ValidCreditPhotosProfileGeneralListBox.Items.AddRange(item.DVDList.ToArray());
+                item = (ListBoxItemWithDVDList)(ValidCreditPhotosFileGeneralListBox.SelectedItem);
+                ValidCreditPhotosProfileGeneralListBox.Items.AddRange(item.DVDList.ToArray());
                 try
                 {
                     String file;
 
-                    file = Path.Combine(this.CreditPhotosFolderTextBox.Text, item.Name);
+                    file = Path.Combine(CreditPhotosFolderTextBox.Text, item.Name);
                     if (HasPictureExtension(file))
                     {
-                        this.ValidCreditPhotosGeneralPictureBox.Image = Image.FromFile(file);
+                        ValidCreditPhotosGeneralPictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.ValidCreditPhotosGeneralPictureBox.Image = (Image)(this.ValidCreditPhotosGeneralPictureBox.ErrorImage.Clone());
+                    ValidCreditPhotosGeneralPictureBox.Image = (Image)(ValidCreditPhotosGeneralPictureBox.ErrorImage.Clone());
                 }
                 CopyToSpecificProfileValidGeneralButton.Enabled = true;
             }
@@ -1070,53 +1069,53 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.InvalidCreditPhotosFileGeneralListBox.SelectedIndex;
-            ResetPictureBox(this.InvalidCreditPhotosGeneralPictureBox);
+            index = InvalidCreditPhotosFileGeneralListBox.SelectedIndex;
+            ResetPictureBox(InvalidCreditPhotosGeneralPictureBox);
             if (index != -1)
             {
                 ListBoxItem item;
 
-                item = (ListBoxItem)(this.InvalidCreditPhotosFileGeneralListBox.SelectedItem);
+                item = (ListBoxItem)(InvalidCreditPhotosFileGeneralListBox.SelectedItem);
                 try
                 {
                     String file;
 
-                    file = Path.Combine(this.CreditPhotosFolderTextBox.Text, item.Name);
+                    file = Path.Combine(CreditPhotosFolderTextBox.Text, item.Name);
                     if (HasPictureExtension(file))
                     {
-                        this.InvalidCreditPhotosGeneralPictureBox.Image = Image.FromFile(file);
+                        InvalidCreditPhotosGeneralPictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.InvalidCreditPhotosGeneralPictureBox.Image = (Image)(this.InvalidCreditPhotosGeneralPictureBox.ErrorImage.Clone());
+                    InvalidCreditPhotosGeneralPictureBox.Image = (Image)(InvalidCreditPhotosGeneralPictureBox.ErrorImage.Clone());
                 }
-                this.RemoveInvalidCreditPhotosGeneralButton.Enabled = true;
+                RemoveInvalidCreditPhotosGeneralButton.Enabled = true;
             }
             else
             {
-                this.RemoveInvalidCreditPhotosGeneralButton.Enabled = false;
+                RemoveInvalidCreditPhotosGeneralButton.Enabled = false;
             }
-            if (this.InvalidCreditPhotosFileGeneralListBox.Items.Count > 0)
+            if (InvalidCreditPhotosFileGeneralListBox.Items.Count > 0)
             {
-                this.RemoveAllInvalidCreditPhotosGeneralButton.Enabled = true;
-                this.CopyToSpecificProfileInvalidGeneralButton.Enabled = true;
+                RemoveAllInvalidCreditPhotosGeneralButton.Enabled = true;
+                CopyToSpecificProfileInvalidGeneralButton.Enabled = true;
             }
             else
             {
-                this.RemoveAllInvalidCreditPhotosGeneralButton.Enabled = false;
-                this.CopyToSpecificProfileInvalidGeneralButton.Enabled = false;
+                RemoveAllInvalidCreditPhotosGeneralButton.Enabled = false;
+                CopyToSpecificProfileInvalidGeneralButton.Enabled = false;
             }
         }
 
         private void OnRemoveInvalidCreditPhotosGeneralButtonClick(Object sender, EventArgs e)
         {
-            if (this.InvalidCreditPhotosFileGeneralListBox.SelectedIndex != -1)
+            if (InvalidCreditPhotosFileGeneralListBox.SelectedIndex != -1)
             {
                 Int32 index;
 
-                index = this.InvalidCreditPhotosFileGeneralListBox.SelectedIndex;
-                if (MessageBox.Show(String.Format("Remove file?", this.InvalidCreditPhotosFileGeneralListBox.Items.Count), "Remove"
+                index = InvalidCreditPhotosFileGeneralListBox.SelectedIndex;
+                if (MessageBox.Show(String.Format("Remove file?", InvalidCreditPhotosFileGeneralListBox.Items.Count), "Remove"
                     , MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     try
@@ -1124,9 +1123,9 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                         String file;
                         ListBoxItem item;
 
-                        item = (ListBoxItem)(this.InvalidCreditPhotosFileGeneralListBox.SelectedItem);
-                        file = Path.Combine(this.CreditPhotosFolderTextBox.Text, item.Name);
-                        ResetPictureBox(this.InvalidCreditPhotosGeneralPictureBox);
+                        item = (ListBoxItem)(InvalidCreditPhotosFileGeneralListBox.SelectedItem);
+                        file = Path.Combine(CreditPhotosFolderTextBox.Text, item.Name);
+                        ResetPictureBox(InvalidCreditPhotosGeneralPictureBox);
                         File.Delete(file);
                     }
                     catch (Exception ex)
@@ -1134,44 +1133,44 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    this.InvalidCreditPhotosFileGeneralListBox.Items.RemoveAt(index);
-                    if (this.InvalidCreditPhotosFileGeneralListBox.Items.Count > 0)
+                    InvalidCreditPhotosFileGeneralListBox.Items.RemoveAt(index);
+                    if (InvalidCreditPhotosFileGeneralListBox.Items.Count > 0)
                     {
                         if (index == 0)
                         {
-                            this.InvalidCreditPhotosFileGeneralListBox.SelectedIndex = 0;
+                            InvalidCreditPhotosFileGeneralListBox.SelectedIndex = 0;
                         }
                         else
                         {
-                            this.InvalidCreditPhotosFileGeneralListBox.SelectedIndex = index - 1;
+                            InvalidCreditPhotosFileGeneralListBox.SelectedIndex = index - 1;
                         }
                     }
                     else
                     {
-                        this.InvalidCreditPhotosFileGeneralListBox.SelectedIndex = -1;
+                        InvalidCreditPhotosFileGeneralListBox.SelectedIndex = -1;
                     }
                 }
             }
-            if (this.InvalidCreditPhotosFileGeneralListBox.SelectedIndex != -1)
+            if (InvalidCreditPhotosFileGeneralListBox.SelectedIndex != -1)
             {
-                this.RemoveInvalidCreditPhotosGeneralButton.Enabled = true;
+                RemoveInvalidCreditPhotosGeneralButton.Enabled = true;
             }
             else
             {
-                this.RemoveInvalidCreditPhotosGeneralButton.Enabled = false;
+                RemoveInvalidCreditPhotosGeneralButton.Enabled = false;
             }
         }
 
         private void OnRemoveAllInvalidCreditPhotosGeneralButtonClick(Object sender, EventArgs e)
         {
-            if (MessageBox.Show(String.Format("Remove {0} files?", this.InvalidCreditPhotosFileGeneralListBox.Items.Count), "Remove"
+            if (MessageBox.Show(String.Format("Remove {0} files?", InvalidCreditPhotosFileGeneralListBox.Items.Count), "Remove"
                 , MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 List<ListBoxItem> list;
 
-                ResetPictureBox(this.InvalidCreditPhotosGeneralPictureBox);
-                list = new List<ListBoxItem>(this.InvalidCreditPhotosFileGeneralListBox.Items.Count);
-                foreach (ListBoxItem item in this.InvalidCreditPhotosFileGeneralListBox.Items)
+                ResetPictureBox(InvalidCreditPhotosGeneralPictureBox);
+                list = new List<ListBoxItem>(InvalidCreditPhotosFileGeneralListBox.Items.Count);
+                foreach (ListBoxItem item in InvalidCreditPhotosFileGeneralListBox.Items)
                 {
                     list.Add(item);
                 }
@@ -1181,7 +1180,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     {
                         String file;
 
-                        file = Path.Combine(this.CreditPhotosFolderTextBox.Text, list[i].Name);
+                        file = Path.Combine(CreditPhotosFolderTextBox.Text, list[i].Name);
                         File.Delete(file);
                         list.RemoveAt(i);
                     }
@@ -1189,31 +1188,31 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.InvalidCreditPhotosFileGeneralListBox.ClearItems();
-                    this.InvalidCreditPhotosFileGeneralListBox.Items.AddRange(list.ToArray());
-                    if (this.InvalidCreditPhotosFileGeneralListBox.Items.Count > 0)
+                    InvalidCreditPhotosFileGeneralListBox.ClearItems();
+                    InvalidCreditPhotosFileGeneralListBox.Items.AddRange(list.ToArray());
+                    if (InvalidCreditPhotosFileGeneralListBox.Items.Count > 0)
                     {
-                        this.InvalidCreditPhotosFileGeneralListBox.SelectedIndex = 0;
+                        InvalidCreditPhotosFileGeneralListBox.SelectedIndex = 0;
                     }
                     else
                     {
-                        this.InvalidCreditPhotosFileGeneralListBox.SelectedIndex = -1;
+                        InvalidCreditPhotosFileGeneralListBox.SelectedIndex = -1;
                     }
                     return;
                 }
-                this.InvalidCreditPhotosFileGeneralListBox.ClearItems();
-                FireSelectionChanged();
+                InvalidCreditPhotosFileGeneralListBox.ClearItems();
+                this.FireSelectionChanged();
             }
         }
 
         private void OnCopyToSpecificProfileInvalidGeneralButtonClick(Object sender, EventArgs e)
         {
-            CopyImageGeneral(InvalidCreditPhotosFileGeneralListBox);
+            this.CopyImageGeneral(InvalidCreditPhotosFileGeneralListBox);
         }
 
         private void OnCopyToSpecificProfileValidGeneralButtonClick(Object sender, EventArgs e)
         {
-            CopyImageGeneral(ValidCreditPhotosFileGeneralListBox);
+            this.CopyImageGeneral(ValidCreditPhotosFileGeneralListBox);
         }
         #endregion
 
@@ -1222,9 +1221,9 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.InvalidCreditPhotosFolderFolderListBox.SelectedIndex;
-            this.InvalidCreditPhotosFileFolderListBox.ClearItems();
-            ResetPictureBox(this.InvalidCreditPhotosFolderPictureBox);
+            index = InvalidCreditPhotosFolderFolderListBox.SelectedIndex;
+            InvalidCreditPhotosFileFolderListBox.ClearItems();
+            ResetPictureBox(InvalidCreditPhotosFolderPictureBox);
             if (index != -1)
             {
                 try
@@ -1232,34 +1231,34 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     List<String> files;
                     String path;
 
-                    path = Path.Combine(this.CreditPhotosFolderTextBox.Text
-                        , this.InvalidCreditPhotosFolderFolderListBox.SelectedItem.ToString());
+                    path = Path.Combine(CreditPhotosFolderTextBox.Text
+                        , InvalidCreditPhotosFolderFolderListBox.SelectedItem.ToString());
                     files = new List<String>(Directory.GetFiles(path, "*.*", SearchOption.AllDirectories));
                     files = files.ConvertAll(item => ConvertAllFile(item, path));
                     files.Sort();
-                    this.InvalidCreditPhotosFileFolderListBox.Items.AddRange(files.ToArray());
-                    if (this.InvalidCreditPhotosFileFolderListBox.Items.Count > 0)
+                    InvalidCreditPhotosFileFolderListBox.Items.AddRange(files.ToArray());
+                    if (InvalidCreditPhotosFileFolderListBox.Items.Count > 0)
                     {
-                        this.InvalidCreditPhotosFileFolderListBox.SelectedIndex = 0;
+                        InvalidCreditPhotosFileFolderListBox.SelectedIndex = 0;
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                this.RemoveInvalidCreditPhotosFolderButton.Enabled = true;
+                RemoveInvalidCreditPhotosFolderButton.Enabled = true;
             }
             else
             {
-                this.RemoveInvalidCreditPhotosFolderButton.Enabled = false;
+                RemoveInvalidCreditPhotosFolderButton.Enabled = false;
             }
-            if (this.InvalidCreditPhotosFolderFolderListBox.Items.Count > 0)
+            if (InvalidCreditPhotosFolderFolderListBox.Items.Count > 0)
             {
-                this.RemoveAllInvalidCreditPhotosFolderButton.Enabled = true;
+                RemoveAllInvalidCreditPhotosFolderButton.Enabled = true;
             }
             else
             {
-                this.RemoveAllInvalidCreditPhotosFolderButton.Enabled = false;
+                RemoveAllInvalidCreditPhotosFolderButton.Enabled = false;
             }
         }
 
@@ -1267,29 +1266,29 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.InvalidCreditPhotosFileFolderListBox.SelectedIndex;
-            ResetPictureBox(this.InvalidCreditPhotosFolderPictureBox);
+            index = InvalidCreditPhotosFileFolderListBox.SelectedIndex;
+            ResetPictureBox(InvalidCreditPhotosFolderPictureBox);
             if (index != -1)
             {
                 String item;
 
-                item = (String)(this.InvalidCreditPhotosFileFolderListBox.SelectedItem);
+                item = (String)(InvalidCreditPhotosFileFolderListBox.SelectedItem);
                 try
                 {
                     String file;
                     String path;
 
-                    path = Path.Combine(this.CreditPhotosFolderTextBox.Text
-                        , this.InvalidCreditPhotosFolderFolderListBox.SelectedItem.ToString());
+                    path = Path.Combine(CreditPhotosFolderTextBox.Text
+                        , InvalidCreditPhotosFolderFolderListBox.SelectedItem.ToString());
                     file = Path.Combine(path, item);
                     if (HasPictureExtension(file))
                     {
-                        this.InvalidCreditPhotosFolderPictureBox.Image = Image.FromFile(file);
+                        InvalidCreditPhotosFolderPictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.InvalidCreditPhotosFolderPictureBox.Image = (Image)(this.InvalidCreditPhotosFolderPictureBox.ErrorImage.Clone());
+                    InvalidCreditPhotosFolderPictureBox.Image = (Image)(InvalidCreditPhotosFolderPictureBox.ErrorImage.Clone());
                 }
                 CopyToSpecificProfileInvalidFolderButton.Enabled = true;
             }
@@ -1303,10 +1302,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.ValidCreditPhotosFolderFolderListBox.SelectedIndex;
-            this.ValidCreditPhotosProfileFolderTextBox.Text = String.Empty;
-            this.ValidCreditPhotosFileFolderListBox.ClearItems();
-            ResetPictureBox(this.ValidCreditPhotosFolderPictureBox);
+            index = ValidCreditPhotosFolderFolderListBox.SelectedIndex;
+            ValidCreditPhotosProfileFolderTextBox.Text = String.Empty;
+            ValidCreditPhotosFileFolderListBox.ClearItems();
+            ResetPictureBox(ValidCreditPhotosFolderPictureBox);
             if (index != -1)
             {
                 try
@@ -1315,16 +1314,16 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     ListBoxItemWithDVD listBoxItem;
                     String path;
 
-                    listBoxItem = (ListBoxItemWithDVD)(this.ValidCreditPhotosFolderFolderListBox.SelectedItem);
-                    this.ValidCreditPhotosProfileFolderTextBox.Text = listBoxItem.DVD.ToString();
-                    path = Path.Combine(this.CreditPhotosFolderTextBox.Text, listBoxItem.Name);
+                    listBoxItem = (ListBoxItemWithDVD)(ValidCreditPhotosFolderFolderListBox.SelectedItem);
+                    ValidCreditPhotosProfileFolderTextBox.Text = listBoxItem.DVD.ToString();
+                    path = Path.Combine(CreditPhotosFolderTextBox.Text, listBoxItem.Name);
                     files = new List<String>(Directory.GetFiles(path, "*.*", SearchOption.AllDirectories));
                     files = files.ConvertAll(item => ConvertAllFile(item, path));
                     files.Sort();
-                    this.ValidCreditPhotosFileFolderListBox.Items.AddRange(files.ToArray());
-                    if (this.ValidCreditPhotosFileFolderListBox.Items.Count > 0)
+                    ValidCreditPhotosFileFolderListBox.Items.AddRange(files.ToArray());
+                    if (ValidCreditPhotosFileFolderListBox.Items.Count > 0)
                     {
-                        this.ValidCreditPhotosFileFolderListBox.SelectedIndex = 0;
+                        ValidCreditPhotosFileFolderListBox.SelectedIndex = 0;
                     }
                 }
                 catch (Exception ex)
@@ -1338,29 +1337,29 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.ValidCreditPhotosFileFolderListBox.SelectedIndex;
-            ResetPictureBox(this.ValidCreditPhotosFolderPictureBox);
+            index = ValidCreditPhotosFileFolderListBox.SelectedIndex;
+            ResetPictureBox(ValidCreditPhotosFolderPictureBox);
             if (index != -1)
             {
                 String item;
 
-                item = (String)(this.ValidCreditPhotosFileFolderListBox.SelectedItem);
+                item = (String)(ValidCreditPhotosFileFolderListBox.SelectedItem);
                 try
                 {
                     String file;
                     String path;
 
-                    path = Path.Combine(this.CreditPhotosFolderTextBox.Text
-                        , this.ValidCreditPhotosFolderFolderListBox.SelectedItem.ToString());
+                    path = Path.Combine(CreditPhotosFolderTextBox.Text
+                        , ValidCreditPhotosFolderFolderListBox.SelectedItem.ToString());
                     file = Path.Combine(path, item);
                     if (HasPictureExtension(file))
                     {
-                        this.ValidCreditPhotosFolderPictureBox.Image = Image.FromFile(file);
+                        ValidCreditPhotosFolderPictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.ValidCreditPhotosFolderPictureBox.Image = (Image)(this.ValidCreditPhotosFolderPictureBox.ErrorImage.Clone());
+                    ValidCreditPhotosFolderPictureBox.Image = (Image)(ValidCreditPhotosFolderPictureBox.ErrorImage.Clone());
                 }
                 CopyToSpecificProfileValidFolderButton.Enabled = true;
             }
@@ -1372,13 +1371,13 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 
         private void OnRemoveInvalidCreditPhotosFolderButtonClick(Object sender, EventArgs e)
         {
-            if (this.InvalidCreditPhotosFolderFolderListBox.SelectedIndex != -1)
+            if (InvalidCreditPhotosFolderFolderListBox.SelectedIndex != -1)
             {
                 Int32 index;
 
-                index = this.InvalidCreditPhotosFolderFolderListBox.SelectedIndex;
-                if (MessageBox.Show(String.Format("Remove folder '{0}' and {1} files in it?", this.InvalidCreditPhotosFolderFolderListBox.SelectedItem
-                    , this.InvalidCreditPhotosFileFolderListBox.Items.Count), "Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                index = InvalidCreditPhotosFolderFolderListBox.SelectedIndex;
+                if (MessageBox.Show(String.Format("Remove folder '{0}' and {1} files in it?", InvalidCreditPhotosFolderFolderListBox.SelectedItem
+                    , InvalidCreditPhotosFileFolderListBox.Items.Count), "Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     try
                     {
@@ -1386,9 +1385,9 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                         ListBoxItem item;
                         String[] files;
 
-                        ResetPictureBox(this.InvalidCreditPhotosFolderPictureBox);
-                        item = (ListBoxItem)(this.InvalidCreditPhotosFolderFolderListBox.SelectedItem);
-                        path = Path.Combine(this.CreditPhotosFolderTextBox.Text, item.Name);
+                        ResetPictureBox(InvalidCreditPhotosFolderPictureBox);
+                        item = (ListBoxItem)(InvalidCreditPhotosFolderFolderListBox.SelectedItem);
+                        path = Path.Combine(CreditPhotosFolderTextBox.Text, item.Name);
                         files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
                         foreach (String file in files)
                         {
@@ -1404,47 +1403,47 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        FireSelectionChanged();
+                        this.FireSelectionChanged();
                         return;
                     }
-                    this.InvalidCreditPhotosFolderFolderListBox.Items.RemoveAt(index);
-                    if (this.InvalidCreditPhotosFolderFolderListBox.Items.Count > 0)
+                    InvalidCreditPhotosFolderFolderListBox.Items.RemoveAt(index);
+                    if (InvalidCreditPhotosFolderFolderListBox.Items.Count > 0)
                     {
                         if (index == 0)
                         {
-                            this.InvalidCreditPhotosFolderFolderListBox.SelectedIndex = 0;
+                            InvalidCreditPhotosFolderFolderListBox.SelectedIndex = 0;
                         }
                         else
                         {
-                            this.InvalidCreditPhotosFolderFolderListBox.SelectedIndex = index - 1;
+                            InvalidCreditPhotosFolderFolderListBox.SelectedIndex = index - 1;
                         }
                     }
                     else
                     {
-                        this.InvalidCreditPhotosFolderFolderListBox.SelectedIndex = -1;
+                        InvalidCreditPhotosFolderFolderListBox.SelectedIndex = -1;
                     }
                 }
             }
-            if (this.InvalidCreditPhotosFolderFolderListBox.SelectedIndex != -1)
+            if (InvalidCreditPhotosFolderFolderListBox.SelectedIndex != -1)
             {
-                this.RemoveInvalidCreditPhotosFolderButton.Enabled = true;
+                RemoveInvalidCreditPhotosFolderButton.Enabled = true;
             }
             else
             {
-                this.RemoveInvalidCreditPhotosFolderButton.Enabled = false;
+                RemoveInvalidCreditPhotosFolderButton.Enabled = false;
             }
         }
 
         private void OnRemoveAllInvalidCreditPhotosFolderButtonClick(Object sender, EventArgs e)
         {
-            if (MessageBox.Show(String.Format("Remove {0} folders and the files in them?", this.InvalidCreditPhotosFolderFolderListBox.Items.Count)
+            if (MessageBox.Show(String.Format("Remove {0} folders and the files in them?", InvalidCreditPhotosFolderFolderListBox.Items.Count)
                 , "Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 List<ListBoxItem> list;
 
-                ResetPictureBox(this.InvalidCreditPhotosFolderPictureBox);
-                list = new List<ListBoxItem>(this.InvalidCreditPhotosFolderFolderListBox.Items.Count);
-                foreach (ListBoxItem item in this.InvalidCreditPhotosFolderFolderListBox.Items)
+                ResetPictureBox(InvalidCreditPhotosFolderPictureBox);
+                list = new List<ListBoxItem>(InvalidCreditPhotosFolderFolderListBox.Items.Count);
+                foreach (ListBoxItem item in InvalidCreditPhotosFolderFolderListBox.Items)
                 {
                     list.Add(item);
                 }
@@ -1455,7 +1454,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                         String path;
                         String[] files;
 
-                        path = Path.Combine(this.CreditPhotosFolderTextBox.Text, list[i].Name);
+                        path = Path.Combine(CreditPhotosFolderTextBox.Text, list[i].Name);
                         files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
                         foreach (String file in files)
                         {
@@ -1468,31 +1467,31 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.InvalidCreditPhotosFolderFolderListBox.ClearItems();
-                    this.InvalidCreditPhotosFolderFolderListBox.Items.AddRange(list.ToArray());
-                    if (this.InvalidCreditPhotosFolderFolderListBox.Items.Count > 0)
+                    InvalidCreditPhotosFolderFolderListBox.ClearItems();
+                    InvalidCreditPhotosFolderFolderListBox.Items.AddRange(list.ToArray());
+                    if (InvalidCreditPhotosFolderFolderListBox.Items.Count > 0)
                     {
-                        this.InvalidCreditPhotosFolderFolderListBox.SelectedIndex = 0;
+                        InvalidCreditPhotosFolderFolderListBox.SelectedIndex = 0;
                     }
                     else
                     {
-                        this.InvalidCreditPhotosFolderFolderListBox.SelectedIndex = -1;
+                        InvalidCreditPhotosFolderFolderListBox.SelectedIndex = -1;
                     }
                     return;
                 }
-                this.InvalidCreditPhotosFolderFolderListBox.ClearItems();
-                FireSelectionChanged();
+                InvalidCreditPhotosFolderFolderListBox.ClearItems();
+                this.FireSelectionChanged();
             }
         }
 
         private void OnCopyToSpecificProfileInvalidFolderButtonClick(Object sender, EventArgs e)
         {
-            CopyImageProfile(InvalidCreditPhotosFileFolderListBox, InvalidCreditPhotosFolderFolderListBox);
+            this.CopyImageProfile(InvalidCreditPhotosFileFolderListBox, InvalidCreditPhotosFolderFolderListBox);
         }
 
         private void OnCopyToSpecificProfileValidFolderButtonClick(Object sender, EventArgs e)
         {
-            CopyImageProfile(ValidCreditPhotosFileFolderListBox, ValidCreditPhotosFolderFolderListBox);
+            this.CopyImageProfile(ValidCreditPhotosFileFolderListBox, ValidCreditPhotosFolderFolderListBox);
         }
         #endregion
 
@@ -1501,20 +1500,20 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.ValidCreditPhotosFolderProfileListBox.SelectedIndex;
-            this.ValidCreditPhotosProfileProfileTextBox.Text = String.Empty;
-            this.ValidCreditPhotosFileProfileListBox.ClearItems();
-            ResetPictureBox(this.ValidCreditPhotosProfilePictureBox);
+            index = ValidCreditPhotosFolderProfileListBox.SelectedIndex;
+            ValidCreditPhotosProfileProfileTextBox.Text = String.Empty;
+            ValidCreditPhotosFileProfileListBox.ClearItems();
+            ResetPictureBox(ValidCreditPhotosProfilePictureBox);
             if (index != -1)
             {
                 ListBoxItemWithNames listBoxItem;
 
-                listBoxItem = (ListBoxItemWithNames)(this.ValidCreditPhotosFolderProfileListBox.SelectedItem);
-                this.ValidCreditPhotosProfileProfileTextBox.Text = listBoxItem.DVD.ToString();
-                this.ValidCreditPhotosFileProfileListBox.Items.AddRange(listBoxItem.ValidList.ToArray());
-                if (this.ValidCreditPhotosFileProfileListBox.Items.Count > 0)
+                listBoxItem = (ListBoxItemWithNames)(ValidCreditPhotosFolderProfileListBox.SelectedItem);
+                ValidCreditPhotosProfileProfileTextBox.Text = listBoxItem.DVD.ToString();
+                ValidCreditPhotosFileProfileListBox.Items.AddRange(listBoxItem.ValidList.ToArray());
+                if (ValidCreditPhotosFileProfileListBox.Items.Count > 0)
                 {
-                    this.ValidCreditPhotosFileProfileListBox.SelectedIndex = 0;
+                    ValidCreditPhotosFileProfileListBox.SelectedIndex = 0;
                 }
             }
         }
@@ -1523,29 +1522,29 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.ValidCreditPhotosFileProfileListBox.SelectedIndex;
-            ResetPictureBox(this.ValidCreditPhotosProfilePictureBox);
+            index = ValidCreditPhotosFileProfileListBox.SelectedIndex;
+            ResetPictureBox(ValidCreditPhotosProfilePictureBox);
             if (index != -1)
             {
                 String item;
 
-                item = (String)(this.ValidCreditPhotosFileProfileListBox.SelectedItem);
+                item = (String)(ValidCreditPhotosFileProfileListBox.SelectedItem);
                 try
                 {
                     String file;
                     String path;
 
-                    path = Path.Combine(this.CreditPhotosFolderTextBox.Text
-                        , this.ValidCreditPhotosFolderProfileListBox.SelectedItem.ToString());
+                    path = Path.Combine(CreditPhotosFolderTextBox.Text
+                        , ValidCreditPhotosFolderProfileListBox.SelectedItem.ToString());
                     file = Path.Combine(path, item);
                     if (HasPictureExtension(file))
                     {
-                        this.ValidCreditPhotosProfilePictureBox.Image = Image.FromFile(file);
+                        ValidCreditPhotosProfilePictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.ValidCreditPhotosProfilePictureBox.Image = (Image)(this.ValidCreditPhotosProfilePictureBox.ErrorImage.Clone());
+                    ValidCreditPhotosProfilePictureBox.Image = (Image)(ValidCreditPhotosProfilePictureBox.ErrorImage.Clone());
                 }
                 CopyToSpecificProfileValidProfileButton.Enabled = true;
             }
@@ -1559,41 +1558,41 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.InvalidCreditPhotosFolderProfileListBox.SelectedIndex;
-            this.InvalidCreditPhotosInvalidFileProfileListBox.ClearItems();
-            ResetPictureBox(this.InvalidCreditPhotosInvalidFileProfilePictureBox);
-            this.InvalidCreditPhotosValidFileProfileListBox.ClearItems();
-            ResetPictureBox(this.InvalidCreditPhotosValidFileProfilePictureBox);
+            index = InvalidCreditPhotosFolderProfileListBox.SelectedIndex;
+            InvalidCreditPhotosInvalidFileProfileListBox.ClearItems();
+            ResetPictureBox(InvalidCreditPhotosInvalidFileProfilePictureBox);
+            InvalidCreditPhotosValidFileProfileListBox.ClearItems();
+            ResetPictureBox(InvalidCreditPhotosValidFileProfilePictureBox);
             if (index != -1)
             {
                 ListBoxItemWithNames listBoxItem;
 
-                listBoxItem = (ListBoxItemWithNames)(this.InvalidCreditPhotosFolderProfileListBox.SelectedItem);
-                this.InvalidCreditPhotosProfileProfileTextBox.Text = listBoxItem.DVD.ToString();
-                this.InvalidCreditPhotosInvalidFileProfileListBox.Items.AddRange(listBoxItem.InvalidList.ToArray());
-                if (this.InvalidCreditPhotosInvalidFileProfileListBox.Items.Count > 0)
+                listBoxItem = (ListBoxItemWithNames)(InvalidCreditPhotosFolderProfileListBox.SelectedItem);
+                InvalidCreditPhotosProfileProfileTextBox.Text = listBoxItem.DVD.ToString();
+                InvalidCreditPhotosInvalidFileProfileListBox.Items.AddRange(listBoxItem.InvalidList.ToArray());
+                if (InvalidCreditPhotosInvalidFileProfileListBox.Items.Count > 0)
                 {
-                    this.InvalidCreditPhotosInvalidFileProfileListBox.SelectedIndex = 0;
+                    InvalidCreditPhotosInvalidFileProfileListBox.SelectedIndex = 0;
                 }
-                this.InvalidCreditPhotosValidFileProfileListBox.Items.AddRange(listBoxItem.ValidList.ToArray());
-                if (this.InvalidCreditPhotosValidFileProfileListBox.Items.Count > 0)
+                InvalidCreditPhotosValidFileProfileListBox.Items.AddRange(listBoxItem.ValidList.ToArray());
+                if (InvalidCreditPhotosValidFileProfileListBox.Items.Count > 0)
                 {
-                    this.InvalidCreditPhotosValidFileProfileListBox.SelectedIndex = 0;
+                    InvalidCreditPhotosValidFileProfileListBox.SelectedIndex = 0;
                 }
-                this.RemoveInvalidCreditPhotosProfileButton.Enabled = true;
+                RemoveInvalidCreditPhotosProfileButton.Enabled = true;
             }
             else
             {
-                this.InvalidCreditPhotosProfileProfileTextBox.Text = String.Empty;
-                this.RemoveInvalidCreditPhotosProfileButton.Enabled = false;
+                InvalidCreditPhotosProfileProfileTextBox.Text = String.Empty;
+                RemoveInvalidCreditPhotosProfileButton.Enabled = false;
             }
-            if (this.InvalidCreditPhotosFolderProfileListBox.Items.Count > 0)
+            if (InvalidCreditPhotosFolderProfileListBox.Items.Count > 0)
             {
-                this.RemoveAllInvalidCreditPhotosProfileButton.Enabled = true;
+                RemoveAllInvalidCreditPhotosProfileButton.Enabled = true;
             }
             else
             {
-                this.RemoveAllInvalidCreditPhotosProfileButton.Enabled = false;
+                RemoveAllInvalidCreditPhotosProfileButton.Enabled = false;
             }
         }
 
@@ -1601,30 +1600,30 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.InvalidCreditPhotosValidFileProfileListBox.SelectedIndex;
-            ResetPictureBox(this.InvalidCreditPhotosValidFileProfilePictureBox);
+            index = InvalidCreditPhotosValidFileProfileListBox.SelectedIndex;
+            ResetPictureBox(InvalidCreditPhotosValidFileProfilePictureBox);
             if (index != -1)
             {
                 String item;
 
-                item = (String)(this.InvalidCreditPhotosValidFileProfileListBox.SelectedItem);
+                item = (String)(InvalidCreditPhotosValidFileProfileListBox.SelectedItem);
                 try
                 {
                     String file;
                     String path;
 
-                    path = Path.Combine(this.CreditPhotosFolderTextBox.Text
-                        , this.InvalidCreditPhotosFolderProfileListBox.SelectedItem.ToString());
+                    path = Path.Combine(CreditPhotosFolderTextBox.Text
+                        , InvalidCreditPhotosFolderProfileListBox.SelectedItem.ToString());
                     file = Path.Combine(path, item);
                     if (HasPictureExtension(file))
                     {
-                        this.InvalidCreditPhotosValidFileProfilePictureBox.Image = Image.FromFile(file);
+                        InvalidCreditPhotosValidFileProfilePictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.InvalidCreditPhotosValidFileProfilePictureBox.Image
-                        = (Image)(this.InvalidCreditPhotosValidFileProfilePictureBox.ErrorImage.Clone());
+                    InvalidCreditPhotosValidFileProfilePictureBox.Image
+                        = (Image)(InvalidCreditPhotosValidFileProfilePictureBox.ErrorImage.Clone());
                 }
                 CopyToSpecificProfileInvalidProfileValidPhotoButton.Enabled = true;
             }
@@ -1638,30 +1637,30 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.InvalidCreditPhotosInvalidFileProfileListBox.SelectedIndex;
-            ResetPictureBox(this.InvalidCreditPhotosInvalidFileProfilePictureBox);
+            index = InvalidCreditPhotosInvalidFileProfileListBox.SelectedIndex;
+            ResetPictureBox(InvalidCreditPhotosInvalidFileProfilePictureBox);
             if (index != -1)
             {
                 String item;
 
-                item = (String)(this.InvalidCreditPhotosInvalidFileProfileListBox.SelectedItem);
+                item = (String)(InvalidCreditPhotosInvalidFileProfileListBox.SelectedItem);
                 try
                 {
                     String file;
                     String path;
 
-                    path = Path.Combine(this.CreditPhotosFolderTextBox.Text
-                        , this.InvalidCreditPhotosFolderProfileListBox.SelectedItem.ToString());
+                    path = Path.Combine(CreditPhotosFolderTextBox.Text
+                        , InvalidCreditPhotosFolderProfileListBox.SelectedItem.ToString());
                     file = Path.Combine(path, item);
                     if (HasPictureExtension(file))
                     {
-                        this.InvalidCreditPhotosInvalidFileProfilePictureBox.Image = Image.FromFile(file);
+                        InvalidCreditPhotosInvalidFileProfilePictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.InvalidCreditPhotosInvalidFileProfilePictureBox.Image
-                        = (Image)(this.InvalidCreditPhotosInvalidFileProfilePictureBox.ErrorImage.Clone());
+                    InvalidCreditPhotosInvalidFileProfilePictureBox.Image
+                        = (Image)(InvalidCreditPhotosInvalidFileProfilePictureBox.ErrorImage.Clone());
                 }
                 CopyToSpecificProfileInvalidProfileInvalidPhotoButton.Enabled = true;
             }
@@ -1673,50 +1672,50 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 
         private void OnRemoveInvalidCreditPhotosProfileButtonClick(Object sender, EventArgs e)
         {
-            if (this.InvalidCreditPhotosFolderProfileListBox.SelectedIndex != -1)
+            if (InvalidCreditPhotosFolderProfileListBox.SelectedIndex != -1)
             {
                 Int32 index;
 
-                index = this.InvalidCreditPhotosFolderProfileListBox.SelectedIndex;
-                if (MessageBox.Show(String.Format("Remove {0} files?", this.InvalidCreditPhotosInvalidFileProfileListBox.Items.Count)
+                index = InvalidCreditPhotosFolderProfileListBox.SelectedIndex;
+                if (MessageBox.Show(String.Format("Remove {0} files?", InvalidCreditPhotosInvalidFileProfileListBox.Items.Count)
                     , "Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     ListBoxItemWithNames item;
                     String path;
 
-                    ResetPictureBox(this.InvalidCreditPhotosInvalidFileProfilePictureBox);
-                    ResetPictureBox(this.ValidCreditPhotosFolderPictureBox);
-                    item = (ListBoxItemWithNames)(this.InvalidCreditPhotosFolderProfileListBox.SelectedItem);
-                    path = Path.Combine(this.CreditPhotosFolderTextBox.Text, item.Name);
+                    ResetPictureBox(InvalidCreditPhotosInvalidFileProfilePictureBox);
+                    ResetPictureBox(ValidCreditPhotosFolderPictureBox);
+                    item = (ListBoxItemWithNames)(InvalidCreditPhotosFolderProfileListBox.SelectedItem);
+                    path = Path.Combine(CreditPhotosFolderTextBox.Text, item.Name);
                     if (this.RemoveInvalidCreditPhotosOnValidFolder(item, path, false) == false)
                     {
                         return;
                     }
-                    this.InvalidCreditPhotosFolderProfileListBox.Items.RemoveAt(index);
-                    if (this.InvalidCreditPhotosFolderProfileListBox.Items.Count > 0)
+                    InvalidCreditPhotosFolderProfileListBox.Items.RemoveAt(index);
+                    if (InvalidCreditPhotosFolderProfileListBox.Items.Count > 0)
                     {
                         if (index == 0)
                         {
-                            this.InvalidCreditPhotosFolderProfileListBox.SelectedIndex = 0;
+                            InvalidCreditPhotosFolderProfileListBox.SelectedIndex = 0;
                         }
                         else
                         {
-                            this.InvalidCreditPhotosFolderProfileListBox.SelectedIndex = index - 1;
+                            InvalidCreditPhotosFolderProfileListBox.SelectedIndex = index - 1;
                         }
                     }
                     else
                     {
-                        this.InvalidCreditPhotosFolderProfileListBox.SelectedIndex = -1;
+                        InvalidCreditPhotosFolderProfileListBox.SelectedIndex = -1;
                     }
                 }
             }
-            if (this.InvalidCreditPhotosFolderProfileListBox.SelectedIndex != -1)
+            if (InvalidCreditPhotosFolderProfileListBox.SelectedIndex != -1)
             {
-                this.RemoveInvalidCreditPhotosProfileButton.Enabled = true;
+                RemoveInvalidCreditPhotosProfileButton.Enabled = true;
             }
             else
             {
-                this.RemoveInvalidCreditPhotosProfileButton.Enabled = false;
+                RemoveInvalidCreditPhotosProfileButton.Enabled = false;
             }
         }
 
@@ -1742,7 +1741,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 item.InvalidList = invalidFiles;
                 if (batchMode == false)
                 {
-                    FireSelectionChanged();
+                    this.FireSelectionChanged();
                 }
                 return (false);
             }
@@ -1750,7 +1749,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             {
                 if (batchMode == false)
                 {
-                    FireSelectionChanged();
+                    this.FireSelectionChanged();
                 }
             }
             return (true);
@@ -1758,15 +1757,15 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
 
         private void OnRemoveAllInvalidCreditPhotosProfileButtonClick(Object sender, EventArgs e)
         {
-            if (MessageBox.Show(String.Format("Remove files from {0} folders?", this.InvalidCreditPhotosFolderProfileListBox.Items.Count)
+            if (MessageBox.Show(String.Format("Remove files from {0} folders?", InvalidCreditPhotosFolderProfileListBox.Items.Count)
                , "Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 List<ListBoxItemWithNames> list;
 
-                ResetPictureBox(this.InvalidCreditPhotosInvalidFileProfilePictureBox);
-                ResetPictureBox(this.ValidCreditPhotosFolderPictureBox);
-                list = new List<ListBoxItemWithNames>(this.InvalidCreditPhotosFolderProfileListBox.Items.Count);
-                foreach (ListBoxItemWithNames item in this.InvalidCreditPhotosFolderProfileListBox.Items)
+                ResetPictureBox(InvalidCreditPhotosInvalidFileProfilePictureBox);
+                ResetPictureBox(ValidCreditPhotosFolderPictureBox);
+                list = new List<ListBoxItemWithNames>(InvalidCreditPhotosFolderProfileListBox.Items.Count);
+                foreach (ListBoxItemWithNames item in InvalidCreditPhotosFolderProfileListBox.Items)
                 {
                     list.Add(item);
                 }
@@ -1774,29 +1773,29 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 {
                     String path;
 
-                    path = Path.Combine(this.CreditPhotosFolderTextBox.Text, list[i].Name);
+                    path = Path.Combine(CreditPhotosFolderTextBox.Text, list[i].Name);
                     if (this.RemoveInvalidCreditPhotosOnValidFolder(list[i], path, true))
                     {
                         list.RemoveAt(i);
                     }
                     else
                     {
-                        this.InvalidCreditPhotosFolderProfileListBox.ClearItems();
-                        this.InvalidCreditPhotosFolderProfileListBox.Items.AddRange(list.ToArray());
-                        if (this.InvalidCreditPhotosFolderProfileListBox.Items.Count > 0)
+                        InvalidCreditPhotosFolderProfileListBox.ClearItems();
+                        InvalidCreditPhotosFolderProfileListBox.Items.AddRange(list.ToArray());
+                        if (InvalidCreditPhotosFolderProfileListBox.Items.Count > 0)
                         {
-                            this.InvalidCreditPhotosFolderProfileListBox.SelectedIndex = 0;
+                            InvalidCreditPhotosFolderProfileListBox.SelectedIndex = 0;
                         }
                         else
                         {
-                            this.InvalidCreditPhotosFolderProfileListBox.SelectedIndex = -1;
+                            InvalidCreditPhotosFolderProfileListBox.SelectedIndex = -1;
                         }
-                        FireSelectionChanged();
+                        this.FireSelectionChanged();
                         return;
                     }
                 }
-                this.InvalidCreditPhotosFolderProfileListBox.ClearItems();
-                FireSelectionChanged();
+                InvalidCreditPhotosFolderProfileListBox.ClearItems();
+                this.FireSelectionChanged();
             }
         }
 
@@ -1808,41 +1807,41 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
             sender = this;
             e = EventArgs.Empty;
 
-            OnInvalidCoverImagesFileListBoxSelectedIndexChanged(sender, e);
-            OnInvalidCoverImagesFolderListBoxSelectedIndexChanged(sender, e);
-            OnInvalidCreditPhotosFileFolderListBoxSelectedIndexChanged(sender, e);
-            OnInvalidCreditPhotosFileGeneralListBoxSelectedIndexChanged(sender, e);
-            OnInvalidCreditPhotosFolderFolderListBoxSelectedIndexChanged(sender, e);
-            OnInvalidCreditPhotosFolderProfileListBoxSelectedIndexChanged(sender, e);
-            OnInvalidCreditPhotosInvalidFileProfileListBoxSelectedIndexChanged(sender, e);
-            OnInvalidCreditPhotosValidFileProfileListBoxSelectedIndexChanged(sender, e);
-            OnInvalidScenePhotosFileListBoxSelectedIndexChanged(sender, e);
-            OnInvalidScenePhotosFolderListBoxSelectedIndexChanged(sender, e);
+            this.OnInvalidCoverImagesFileListBoxSelectedIndexChanged(sender, e);
+            this.OnInvalidCoverImagesFolderListBoxSelectedIndexChanged(sender, e);
+            this.OnInvalidCreditPhotosFileFolderListBoxSelectedIndexChanged(sender, e);
+            this.OnInvalidCreditPhotosFileGeneralListBoxSelectedIndexChanged(sender, e);
+            this.OnInvalidCreditPhotosFolderFolderListBoxSelectedIndexChanged(sender, e);
+            this.OnInvalidCreditPhotosFolderProfileListBoxSelectedIndexChanged(sender, e);
+            this.OnInvalidCreditPhotosInvalidFileProfileListBoxSelectedIndexChanged(sender, e);
+            this.OnInvalidCreditPhotosValidFileProfileListBoxSelectedIndexChanged(sender, e);
+            this.OnInvalidScenePhotosFileListBoxSelectedIndexChanged(sender, e);
+            this.OnInvalidScenePhotosFolderListBoxSelectedIndexChanged(sender, e);
 
-            OnValidCoverImagesFileListBoxSelectedIndexChanged(sender, e);
-            OnValidCoverImagesFolderListBoxSelectedIndexChanged(sender, e);
-            OnValidCreditPhotosFileFolderListBoxSelectedIndexChanged(sender, e);
-            OnValidCreditPhotosFileGeneralListBoxSelectedIndexChanged(sender, e);
-            OnValidCreditPhotosFileProfileListBoxSelectedIndexChanged(sender, e);
-            OnValidCreditPhotosFolderFolderListBoxSelectedIndexChanged(sender, e);
-            OnValidCreditPhotosFolderProfileListBoxSelectedIndexChanged(sender, e);
-            OnValidScenePhotosFileListBoxSelectedIndexChanged(sender, e);
-            OnValidScenePhotosFolderListBoxSelectedIndexChanged(sender, e);
+            this.OnValidCoverImagesFileListBoxSelectedIndexChanged(sender, e);
+            this.OnValidCoverImagesFolderListBoxSelectedIndexChanged(sender, e);
+            this.OnValidCreditPhotosFileFolderListBoxSelectedIndexChanged(sender, e);
+            this.OnValidCreditPhotosFileGeneralListBoxSelectedIndexChanged(sender, e);
+            this.OnValidCreditPhotosFileProfileListBoxSelectedIndexChanged(sender, e);
+            this.OnValidCreditPhotosFolderFolderListBoxSelectedIndexChanged(sender, e);
+            this.OnValidCreditPhotosFolderProfileListBoxSelectedIndexChanged(sender, e);
+            this.OnValidScenePhotosFileListBoxSelectedIndexChanged(sender, e);
+            this.OnValidScenePhotosFolderListBoxSelectedIndexChanged(sender, e);
         }
 
         private void OnCopyToSpecificProfileInvalidProfileInvalidPhotoButtonClick(Object sender, EventArgs e)
         {
-            CopyImageProfile(InvalidCreditPhotosInvalidFileProfileListBox, InvalidCreditPhotosFolderProfileListBox);
+            this.CopyImageProfile(InvalidCreditPhotosInvalidFileProfileListBox, InvalidCreditPhotosFolderProfileListBox);
         }
 
         private void OnCopyToSpecificProfileInvalidProfileValidPhotoButtonClick(Object sender, EventArgs e)
         {
-            CopyImageProfile(InvalidCreditPhotosValidFileProfileListBox, InvalidCreditPhotosFolderProfileListBox);
+            this.CopyImageProfile(InvalidCreditPhotosValidFileProfileListBox, InvalidCreditPhotosFolderProfileListBox);
         }
 
         private void OnCopyToSpecificProfileValidProfileButtonClick(Object sender, EventArgs e)
         {
-            CopyImageProfile(ValidCreditPhotosFileProfileListBox, ValidCreditPhotosFolderProfileListBox);
+            this.CopyImageProfile(ValidCreditPhotosFileProfileListBox, ValidCreditPhotosFolderProfileListBox);
         }
         #endregion
         #endregion
@@ -1852,9 +1851,9 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.InvalidScenePhotosFolderListBox.SelectedIndex;
-            this.InvalidScenePhotosFileListBox.ClearItems();
-            ResetPictureBox(this.InvalidScenePhotosPictureBox);
+            index = InvalidScenePhotosFolderListBox.SelectedIndex;
+            InvalidScenePhotosFileListBox.ClearItems();
+            ResetPictureBox(InvalidScenePhotosPictureBox);
             if (index != -1)
             {
                 try
@@ -1862,35 +1861,35 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     List<String> files;
                     String path;
 
-                    path = Path.Combine(this.ScenePhotosFolderTextbox.Text
-                        , this.InvalidScenePhotosFolderListBox.SelectedItem.ToString());
+                    path = Path.Combine(ScenePhotosFolderTextbox.Text
+                        , InvalidScenePhotosFolderListBox.SelectedItem.ToString());
                     files = new List<String>(Directory.GetFiles(path, "*.*", SearchOption.AllDirectories));
 
                     files = files.ConvertAll(item => ConvertAllFile(item, path));
                     files.Sort();
-                    this.InvalidScenePhotosFileListBox.Items.AddRange(files.ToArray());
-                    if (this.InvalidScenePhotosFileListBox.Items.Count > 0)
+                    InvalidScenePhotosFileListBox.Items.AddRange(files.ToArray());
+                    if (InvalidScenePhotosFileListBox.Items.Count > 0)
                     {
-                        this.InvalidScenePhotosFileListBox.SelectedIndex = 0;
+                        InvalidScenePhotosFileListBox.SelectedIndex = 0;
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                this.RemoveInvalidScenePhotosButton.Enabled = true;
+                RemoveInvalidScenePhotosButton.Enabled = true;
             }
             else
             {
-                this.RemoveInvalidScenePhotosButton.Enabled = false;
+                RemoveInvalidScenePhotosButton.Enabled = false;
             }
-            if (this.InvalidScenePhotosFolderListBox.Items.Count > 0)
+            if (InvalidScenePhotosFolderListBox.Items.Count > 0)
             {
-                this.RemoveAllInvalidScenePhotosButton.Enabled = true;
+                RemoveAllInvalidScenePhotosButton.Enabled = true;
             }
             else
             {
-                this.RemoveAllInvalidScenePhotosButton.Enabled = false;
+                RemoveAllInvalidScenePhotosButton.Enabled = false;
             }
         }
 
@@ -1898,29 +1897,29 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.InvalidScenePhotosFileListBox.SelectedIndex;
-            ResetPictureBox(this.InvalidScenePhotosPictureBox);
+            index = InvalidScenePhotosFileListBox.SelectedIndex;
+            ResetPictureBox(InvalidScenePhotosPictureBox);
             if (index != -1)
             {
                 String item;
 
-                item = (String)(this.InvalidScenePhotosFileListBox.SelectedItem);
+                item = (String)(InvalidScenePhotosFileListBox.SelectedItem);
                 try
                 {
                     String file;
                     String path;
 
-                    path = Path.Combine(this.ScenePhotosFolderTextbox.Text
-                        , this.InvalidScenePhotosFolderListBox.SelectedItem.ToString());
+                    path = Path.Combine(ScenePhotosFolderTextbox.Text
+                        , InvalidScenePhotosFolderListBox.SelectedItem.ToString());
                     file = Path.Combine(path, item);
                     if (HasPictureExtension(file))
                     {
-                        this.InvalidScenePhotosPictureBox.Image = Image.FromFile(file);
+                        InvalidScenePhotosPictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.InvalidScenePhotosPictureBox.Image = (Image)(this.InvalidScenePhotosPictureBox.ErrorImage.Clone());
+                    InvalidScenePhotosPictureBox.Image = (Image)(InvalidScenePhotosPictureBox.ErrorImage.Clone());
                 }
             }
         }
@@ -1929,10 +1928,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.ValidScenePhotosFolderListBox.SelectedIndex;
-            this.ValidScenePhotosProfileTextBox.Text = String.Empty;
-            this.ValidScenePhotosFileListBox.ClearItems();
-            ResetPictureBox(this.ValidScenePhotosPictureBox);
+            index = ValidScenePhotosFolderListBox.SelectedIndex;
+            ValidScenePhotosProfileTextBox.Text = String.Empty;
+            ValidScenePhotosFileListBox.ClearItems();
+            ResetPictureBox(ValidScenePhotosPictureBox);
             if (index != -1)
             {
                 try
@@ -1941,16 +1940,16 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     ListBoxItemWithDVD listBoxItem;
                     String path;
 
-                    listBoxItem = (ListBoxItemWithDVD)(this.ValidScenePhotosFolderListBox.SelectedItem);
-                    this.ValidScenePhotosProfileTextBox.Text = listBoxItem.DVD.ToString();
-                    path = Path.Combine(this.ScenePhotosFolderTextbox.Text, listBoxItem.Name);
+                    listBoxItem = (ListBoxItemWithDVD)(ValidScenePhotosFolderListBox.SelectedItem);
+                    ValidScenePhotosProfileTextBox.Text = listBoxItem.DVD.ToString();
+                    path = Path.Combine(ScenePhotosFolderTextbox.Text, listBoxItem.Name);
                     files = new List<String>(Directory.GetFiles(path, "*.*", SearchOption.AllDirectories));
                     files = files.ConvertAll(item => ConvertAllFile(item, path));
                     files.Sort();
-                    this.ValidScenePhotosFileListBox.Items.AddRange(files.ToArray());
-                    if (this.ValidScenePhotosFileListBox.Items.Count > 0)
+                    ValidScenePhotosFileListBox.Items.AddRange(files.ToArray());
+                    if (ValidScenePhotosFileListBox.Items.Count > 0)
                     {
-                        this.ValidScenePhotosFileListBox.SelectedIndex = 0;
+                        ValidScenePhotosFileListBox.SelectedIndex = 0;
                     }
                 }
                 catch (Exception ex)
@@ -1964,42 +1963,42 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.ValidScenePhotosFileListBox.SelectedIndex;
-            ResetPictureBox(this.ValidScenePhotosPictureBox);
+            index = ValidScenePhotosFileListBox.SelectedIndex;
+            ResetPictureBox(ValidScenePhotosPictureBox);
             if (index != -1)
             {
                 String item;
 
-                item = (String)(this.ValidScenePhotosFileListBox.SelectedItem);
+                item = (String)(ValidScenePhotosFileListBox.SelectedItem);
                 try
                 {
                     String file;
                     String path;
 
-                    path = Path.Combine(this.ScenePhotosFolderTextbox.Text
-                        , this.ValidScenePhotosFolderListBox.SelectedItem.ToString());
+                    path = Path.Combine(ScenePhotosFolderTextbox.Text
+                        , ValidScenePhotosFolderListBox.SelectedItem.ToString());
                     file = Path.Combine(path, item);
                     if (HasPictureExtension(file))
                     {
-                        this.ValidScenePhotosPictureBox.Image = Image.FromFile(file);
+                        ValidScenePhotosPictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.ValidScenePhotosPictureBox.Image = (Image)(this.ValidScenePhotosPictureBox.ErrorImage.Clone());
+                    ValidScenePhotosPictureBox.Image = (Image)(ValidScenePhotosPictureBox.ErrorImage.Clone());
                 }
             }
         }
 
         private void OnRemoveInvalidScenePhotosButtonClick(Object sender, EventArgs e)
         {
-            if (this.InvalidScenePhotosFolderListBox.SelectedIndex != -1)
+            if (InvalidScenePhotosFolderListBox.SelectedIndex != -1)
             {
                 Int32 index;
 
-                index = this.InvalidScenePhotosFolderListBox.SelectedIndex;
-                if (MessageBox.Show(String.Format("Remove folder '{0}' and {1} files in it?", this.InvalidScenePhotosFolderListBox.SelectedItem
-                    , this.InvalidScenePhotosFileListBox.Items.Count), "Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                index = InvalidScenePhotosFolderListBox.SelectedIndex;
+                if (MessageBox.Show(String.Format("Remove folder '{0}' and {1} files in it?", InvalidScenePhotosFolderListBox.SelectedItem
+                    , InvalidScenePhotosFileListBox.Items.Count), "Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     try
                     {
@@ -2007,9 +2006,9 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                         ListBoxItem item;
                         String[] files;
 
-                        ResetPictureBox(this.InvalidScenePhotosPictureBox);
-                        item = (ListBoxItem)(this.InvalidScenePhotosFolderListBox.SelectedItem);
-                        path = Path.Combine(this.ScenePhotosFolderTextbox.Text, item.Name);
+                        ResetPictureBox(InvalidScenePhotosPictureBox);
+                        item = (ListBoxItem)(InvalidScenePhotosFolderListBox.SelectedItem);
+                        path = Path.Combine(ScenePhotosFolderTextbox.Text, item.Name);
                         files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
                         foreach (String file in files)
                         {
@@ -2025,47 +2024,47 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        FireSelectionChanged();
+                        this.FireSelectionChanged();
                         return;
                     }
-                    this.InvalidScenePhotosFolderListBox.Items.RemoveAt(index);
-                    if (this.InvalidScenePhotosFolderListBox.Items.Count > 0)
+                    InvalidScenePhotosFolderListBox.Items.RemoveAt(index);
+                    if (InvalidScenePhotosFolderListBox.Items.Count > 0)
                     {
                         if (index == 0)
                         {
-                            this.InvalidScenePhotosFolderListBox.SelectedIndex = 0;
+                            InvalidScenePhotosFolderListBox.SelectedIndex = 0;
                         }
                         else
                         {
-                            this.InvalidScenePhotosFolderListBox.SelectedIndex = index - 1;
+                            InvalidScenePhotosFolderListBox.SelectedIndex = index - 1;
                         }
                     }
                     else
                     {
-                        this.InvalidScenePhotosFolderListBox.SelectedIndex = -1;
+                        InvalidScenePhotosFolderListBox.SelectedIndex = -1;
                     }
                 }
             }
-            if (this.InvalidScenePhotosFolderListBox.SelectedIndex != -1)
+            if (InvalidScenePhotosFolderListBox.SelectedIndex != -1)
             {
-                this.RemoveInvalidScenePhotosButton.Enabled = true;
+                RemoveInvalidScenePhotosButton.Enabled = true;
             }
             else
             {
-                this.RemoveInvalidScenePhotosButton.Enabled = false;
+                RemoveInvalidScenePhotosButton.Enabled = false;
             }
         }
 
         private void OnRemoveAllInvalidScenePhotosButtonClick(Object sender, EventArgs e)
         {
-            if (MessageBox.Show(String.Format("Remove {0} folders and the files in them?", this.InvalidScenePhotosFolderListBox.Items.Count), "Remove"
+            if (MessageBox.Show(String.Format("Remove {0} folders and the files in them?", InvalidScenePhotosFolderListBox.Items.Count), "Remove"
                     , MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 List<ListBoxItem> list;
 
-                ResetPictureBox(this.InvalidScenePhotosPictureBox);
-                list = new List<ListBoxItem>(this.InvalidScenePhotosFolderListBox.Items.Count);
-                foreach (ListBoxItem item in this.InvalidScenePhotosFolderListBox.Items)
+                ResetPictureBox(InvalidScenePhotosPictureBox);
+                list = new List<ListBoxItem>(InvalidScenePhotosFolderListBox.Items.Count);
+                foreach (ListBoxItem item in InvalidScenePhotosFolderListBox.Items)
                 {
                     list.Add(item);
                 }
@@ -2076,7 +2075,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                         String path;
                         String[] files;
 
-                        path = Path.Combine(this.ScenePhotosFolderTextbox.Text, list[i].Name);
+                        path = Path.Combine(ScenePhotosFolderTextbox.Text, list[i].Name);
                         files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
                         foreach (String file in files)
                         {
@@ -2094,20 +2093,20 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.InvalidScenePhotosFolderListBox.ClearItems();
-                    this.InvalidScenePhotosFolderListBox.Items.AddRange(list.ToArray());
-                    if (this.InvalidScenePhotosFolderListBox.Items.Count > 0)
+                    InvalidScenePhotosFolderListBox.ClearItems();
+                    InvalidScenePhotosFolderListBox.Items.AddRange(list.ToArray());
+                    if (InvalidScenePhotosFolderListBox.Items.Count > 0)
                     {
-                        this.InvalidScenePhotosFolderListBox.SelectedIndex = 0;
+                        InvalidScenePhotosFolderListBox.SelectedIndex = 0;
                     }
                     else
                     {
-                        this.InvalidScenePhotosFolderListBox.SelectedIndex = -1;
+                        InvalidScenePhotosFolderListBox.SelectedIndex = -1;
                     }
                     return;
                 }
-                this.InvalidScenePhotosFolderListBox.ClearItems();
-                FireSelectionChanged();
+                InvalidScenePhotosFolderListBox.ClearItems();
+                this.FireSelectionChanged();
             }
         }
         #endregion
@@ -2115,10 +2114,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         #region Cover Images
         private void OnCleanCoverImagesCheckBoxCheckedChanged(Object sender, EventArgs e)
         {
-            this.DatabaseFolderTextbox.Enabled = this.CleanCoverImagesCheckBox.Checked;
-            this.SelectDatabaseFolderButton.Enabled = this.CleanCoverImagesCheckBox.Checked;
-            this.CoverImagesTabControl.Enabled = this.CleanCoverImagesCheckBox.Checked;
-            Plugin.Settings.DefaultValues.CleanUpCoverImages = this.CleanCoverImagesCheckBox.Checked;
+            DatabaseFolderTextbox.Enabled = CleanCoverImagesCheckBox.Checked;
+            SelectDatabaseFolderButton.Enabled = CleanCoverImagesCheckBox.Checked;
+            CoverImagesTabControl.Enabled = CleanCoverImagesCheckBox.Checked;
+            Plugin.Settings.DefaultValues.CleanUpCoverImages = CleanCoverImagesCheckBox.Checked;
         }
 
         private void OnSelectDatabaseFolderButtonClick(Object sender, EventArgs e)
@@ -2128,7 +2127,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 Boolean ok;
 
                 fbd.Description = "Please select your Database folder";
-                fbd.SelectedPath = this.DatabaseFolderTextbox.Text;
+                fbd.SelectedPath = DatabaseFolderTextbox.Text;
                 fbd.ShowNewFolderButton = false;
                 do
                 {
@@ -2143,7 +2142,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                         }
                         else
                         {
-                            this.DatabaseFolderTextbox.Text = fbd.SelectedPath;
+                            DatabaseFolderTextbox.Text = fbd.SelectedPath;
                         }
                     }
                 } while (ok == false);
@@ -2154,10 +2153,10 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.ValidCoverImagesFolderListBox.SelectedIndex;
-            this.ValidCoverImagesProfileTextBox.Text = String.Empty;
-            this.ValidCoverImagesFileListBox.ClearItems();
-            ResetPictureBox(this.ValidCoverImagesPictureBox);
+            index = ValidCoverImagesFolderListBox.SelectedIndex;
+            ValidCoverImagesProfileTextBox.Text = String.Empty;
+            ValidCoverImagesFileListBox.ClearItems();
+            ResetPictureBox(ValidCoverImagesPictureBox);
             if (index != -1)
             {
                 try
@@ -2167,22 +2166,22 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     ListBoxItemWithDVD listBoxItem;
                     String filter;
 
-                    listBoxItem = (ListBoxItemWithDVD)(this.ValidCoverImagesFolderListBox.SelectedItem);
-                    this.ValidCoverImagesProfileTextBox.Text = listBoxItem.DVD.ToString();
-                    path = Path.Combine(this.DatabaseFolderTextbox.Text, "Images");
+                    listBoxItem = (ListBoxItemWithDVD)(ValidCoverImagesFolderListBox.SelectedItem);
+                    ValidCoverImagesProfileTextBox.Text = listBoxItem.DVD.ToString();
+                    path = Path.Combine(DatabaseFolderTextbox.Text, "Images");
                     if (Directory.Exists(path) == false)
                     {
                         MessageBox.Show("Cover Images folder file not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-                    filter = this.ValidCoverImagesFolderListBox.SelectedItem.ToString();
+                    filter = ValidCoverImagesFolderListBox.SelectedItem.ToString();
                     files = new List<String>(Directory.GetFiles(path, filter + "*.*", SearchOption.AllDirectories));
                     files = files.ConvertAll(item => ConvertAllFile(item, path));
                     files.Sort(CompareReverse);
-                    this.ValidCoverImagesFileListBox.Items.AddRange(files.ToArray());
-                    if (this.ValidCoverImagesFileListBox.Items.Count > 0)
+                    ValidCoverImagesFileListBox.Items.AddRange(files.ToArray());
+                    if (ValidCoverImagesFileListBox.Items.Count > 0)
                     {
-                        this.ValidCoverImagesFileListBox.SelectedIndex = 0;
+                        ValidCoverImagesFileListBox.SelectedIndex = 0;
                     }
                 }
                 catch (Exception ex)
@@ -2196,41 +2195,41 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.ValidCoverImagesFileListBox.SelectedIndex;
-            ResetPictureBox(this.ValidCoverImagesPictureBox);
+            index = ValidCoverImagesFileListBox.SelectedIndex;
+            ResetPictureBox(ValidCoverImagesPictureBox);
             if (index != -1)
             {
                 String item;
 
-                item = (String)(this.ValidCoverImagesFileListBox.SelectedItem);
+                item = (String)(ValidCoverImagesFileListBox.SelectedItem);
                 try
                 {
                     String file;
                     String path;
 
-                    path = Path.Combine(this.DatabaseFolderTextbox.Text, "Images");
+                    path = Path.Combine(DatabaseFolderTextbox.Text, "Images");
                     file = Path.Combine(path, item);
                     if (HasPictureExtension(file))
                     {
-                        this.ValidCoverImagesPictureBox.Image = Image.FromFile(file);
+                        ValidCoverImagesPictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.ValidCoverImagesPictureBox.Image = (Image)(this.ValidCoverImagesPictureBox.ErrorImage.Clone());
+                    ValidCoverImagesPictureBox.Image = (Image)(ValidCoverImagesPictureBox.ErrorImage.Clone());
                 }
             }
         }
 
         private void OnRemoveInvalidCoverImagesButtonClick(Object sender, EventArgs e)
         {
-            if (this.InvalidCoverImagesFolderListBox.SelectedIndex != -1)
+            if (InvalidCoverImagesFolderListBox.SelectedIndex != -1)
             {
                 Int32 index;
 
-                index = this.InvalidCoverImagesFolderListBox.SelectedIndex;
+                index = InvalidCoverImagesFolderListBox.SelectedIndex;
                 if (MessageBox.Show(String.Format("Remove {0} files starting with '{1}'?"
-                    , this.InvalidCoverImagesFileListBox.Items.Count, this.InvalidCoverImagesFolderListBox.SelectedItem)
+                    , InvalidCoverImagesFileListBox.Items.Count, InvalidCoverImagesFolderListBox.SelectedItem)
                     , "Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     try
@@ -2239,9 +2238,9 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                         ListBoxItem item;
                         List<String> files;
 
-                        ResetPictureBox(this.InvalidCoverImagesPictureBox);
-                        item = (ListBoxItem)(this.InvalidCoverImagesFolderListBox.SelectedItem);
-                        path = Path.Combine(this.DatabaseFolderTextbox.Text, "Images");
+                        ResetPictureBox(InvalidCoverImagesPictureBox);
+                        item = (ListBoxItem)(InvalidCoverImagesFolderListBox.SelectedItem);
+                        path = Path.Combine(DatabaseFolderTextbox.Text, "Images");
                         files = new List<String>(Directory.GetFiles(path, item.Name + "f.jpg", SearchOption.AllDirectories));
                         files.AddRange(Directory.GetFiles(path, item.Name + "b.jpg", SearchOption.AllDirectories));
                         foreach (String file in files)
@@ -2252,47 +2251,47 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        FireSelectionChanged();
+                        this.FireSelectionChanged();
                         return;
                     }
-                    this.InvalidCoverImagesFolderListBox.Items.RemoveAt(index);
-                    if (this.InvalidCoverImagesFolderListBox.Items.Count > 0)
+                    InvalidCoverImagesFolderListBox.Items.RemoveAt(index);
+                    if (InvalidCoverImagesFolderListBox.Items.Count > 0)
                     {
                         if (index == 0)
                         {
-                            this.InvalidCoverImagesFolderListBox.SelectedIndex = 0;
+                            InvalidCoverImagesFolderListBox.SelectedIndex = 0;
                         }
                         else
                         {
-                            this.InvalidCoverImagesFolderListBox.SelectedIndex = index - 1;
+                            InvalidCoverImagesFolderListBox.SelectedIndex = index - 1;
                         }
                     }
                     else
                     {
-                        this.InvalidCoverImagesFolderListBox.SelectedIndex = -1;
+                        InvalidCoverImagesFolderListBox.SelectedIndex = -1;
                     }
                 }
             }
-            if (this.InvalidCoverImagesFolderListBox.SelectedIndex != -1)
+            if (InvalidCoverImagesFolderListBox.SelectedIndex != -1)
             {
-                this.RemoveInvalidCoverImagesButton.Enabled = true;
+                RemoveInvalidCoverImagesButton.Enabled = true;
             }
             else
             {
-                this.RemoveInvalidCoverImagesButton.Enabled = false;
+                RemoveInvalidCoverImagesButton.Enabled = false;
             }
         }
 
         private void OnRemoveAllInvalidCoverImagesButtonClick(Object sender, EventArgs e)
         {
-            if (MessageBox.Show(String.Format("Remove all files?", this.InvalidScenePhotosFolderListBox.Items.Count), "Remove"
+            if (MessageBox.Show(String.Format("Remove all files?", InvalidScenePhotosFolderListBox.Items.Count), "Remove"
                    , MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 List<ListBoxItem> list;
 
-                ResetPictureBox(this.InvalidCoverImagesPictureBox);
-                list = new List<ListBoxItem>(this.InvalidCoverImagesFolderListBox.Items.Count);
-                foreach (ListBoxItem item in this.InvalidCoverImagesFolderListBox.Items)
+                ResetPictureBox(InvalidCoverImagesPictureBox);
+                list = new List<ListBoxItem>(InvalidCoverImagesFolderListBox.Items.Count);
+                foreach (ListBoxItem item in InvalidCoverImagesFolderListBox.Items)
                 {
                     list.Add(item);
                 }
@@ -2303,7 +2302,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                         String path;
                         List<String> files;
 
-                        path = Path.Combine(this.DatabaseFolderTextbox.Text, "Images");
+                        path = Path.Combine(DatabaseFolderTextbox.Text, "Images");
                         files = new List<String>(Directory.GetFiles(path, list[i].Name + "f.jpg", SearchOption.AllDirectories));
                         files.AddRange(Directory.GetFiles(path, list[i].Name + "b.jpg", SearchOption.AllDirectories));
                         foreach (String file in files)
@@ -2316,20 +2315,20 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.InvalidCoverImagesFolderListBox.ClearItems();
-                    this.InvalidCoverImagesFolderListBox.Items.AddRange(list.ToArray());
-                    if (this.InvalidCoverImagesFolderListBox.Items.Count > 0)
+                    InvalidCoverImagesFolderListBox.ClearItems();
+                    InvalidCoverImagesFolderListBox.Items.AddRange(list.ToArray());
+                    if (InvalidCoverImagesFolderListBox.Items.Count > 0)
                     {
-                        this.InvalidCoverImagesFolderListBox.SelectedIndex = 0;
+                        InvalidCoverImagesFolderListBox.SelectedIndex = 0;
                     }
                     else
                     {
-                        this.InvalidCoverImagesFolderListBox.SelectedIndex = -1;
+                        InvalidCoverImagesFolderListBox.SelectedIndex = -1;
                     }
                     return;
                 }
-                this.InvalidCoverImagesFolderListBox.ClearItems();
-                FireSelectionChanged();
+                InvalidCoverImagesFolderListBox.ClearItems();
+                this.FireSelectionChanged();
             }
         }
 
@@ -2337,9 +2336,9 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.InvalidCoverImagesFolderListBox.SelectedIndex;
-            this.InvalidCoverImagesFileListBox.ClearItems();
-            ResetPictureBox(this.InvalidCoverImagesPictureBox);
+            index = InvalidCoverImagesFolderListBox.SelectedIndex;
+            InvalidCoverImagesFileListBox.ClearItems();
+            ResetPictureBox(InvalidCoverImagesPictureBox);
             if (index != -1)
             {
                 try
@@ -2348,40 +2347,40 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     List<String> files;
                     String filter;
 
-                    path = Path.Combine(this.DatabaseFolderTextbox.Text, "Images");
+                    path = Path.Combine(DatabaseFolderTextbox.Text, "Images");
                     if (Directory.Exists(path) == false)
                     {
                         MessageBox.Show("Cover Images folder file not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-                    filter = this.InvalidCoverImagesFolderListBox.SelectedItem.ToString();
+                    filter = InvalidCoverImagesFolderListBox.SelectedItem.ToString();
                     files = new List<String>(Directory.GetFiles(path, filter + "b.jpg", SearchOption.AllDirectories));
                     files.AddRange(Directory.GetFiles(path, filter + "f.jpg", SearchOption.AllDirectories));
                     files = files.ConvertAll(item => ConvertAllFile(item, path));
                     files.Sort(CompareReverse);
-                    this.InvalidCoverImagesFileListBox.Items.AddRange(files.ToArray());
-                    if (this.InvalidCoverImagesFileListBox.Items.Count > 0)
+                    InvalidCoverImagesFileListBox.Items.AddRange(files.ToArray());
+                    if (InvalidCoverImagesFileListBox.Items.Count > 0)
                     {
-                        this.InvalidCoverImagesFileListBox.SelectedIndex = 0;
+                        InvalidCoverImagesFileListBox.SelectedIndex = 0;
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                this.RemoveInvalidCoverImagesButton.Enabled = true;
+                RemoveInvalidCoverImagesButton.Enabled = true;
             }
             else
             {
-                this.RemoveInvalidCoverImagesButton.Enabled = false;
+                RemoveInvalidCoverImagesButton.Enabled = false;
             }
-            if (this.InvalidCoverImagesFolderListBox.Items.Count > 0)
+            if (InvalidCoverImagesFolderListBox.Items.Count > 0)
             {
-                this.RemoveAllInvalidCoverImagesButton.Enabled = true;
+                RemoveAllInvalidCoverImagesButton.Enabled = true;
             }
             else
             {
-                this.RemoveAllInvalidCoverImagesButton.Enabled = false;
+                RemoveAllInvalidCoverImagesButton.Enabled = false;
             }
         }
 
@@ -2389,28 +2388,28 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         {
             Int32 index;
 
-            index = this.InvalidCoverImagesFileListBox.SelectedIndex;
-            ResetPictureBox(this.InvalidCoverImagesPictureBox);
+            index = InvalidCoverImagesFileListBox.SelectedIndex;
+            ResetPictureBox(InvalidCoverImagesPictureBox);
             if (index != -1)
             {
                 String item;
 
-                item = (String)(this.InvalidCoverImagesFileListBox.SelectedItem);
+                item = (String)(InvalidCoverImagesFileListBox.SelectedItem);
                 try
                 {
                     String file;
                     String path;
 
-                    path = Path.Combine(this.DatabaseFolderTextbox.Text, "Images");
+                    path = Path.Combine(DatabaseFolderTextbox.Text, "Images");
                     file = Path.Combine(path, item);
                     if (HasPictureExtension(file))
                     {
-                        this.InvalidCoverImagesPictureBox.Image = Image.FromFile(file);
+                        InvalidCoverImagesPictureBox.Image = Image.FromFile(file);
                     }
                 }
                 catch
                 {
-                    this.InvalidCoverImagesPictureBox.Image = (Image)(this.InvalidCoverImagesPictureBox.ErrorImage.Clone());
+                    InvalidCoverImagesPictureBox.Image = (Image)(InvalidCoverImagesPictureBox.ErrorImage.Clone());
                 }
             }
         }

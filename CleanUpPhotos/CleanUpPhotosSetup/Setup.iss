@@ -1,11 +1,11 @@
 [Setup]
 AppName=Clean Up Photos
 AppId=CleanUpPhotos
-AppVerName=Clean Up Photos 3.1.2.0
-AppCopyright=Copyright © Doena Soft. 2011 - 2015
+AppVerName=Clean Up Photos 3.1.2.1
+AppCopyright=Copyright © Doena Soft. 2011 - 2021
 AppPublisher=Doena Soft.
 AppPublisherURL=http://doena-journal.net/en/dvd-profiler-tools/
-DefaultDirName={pf32}\Doena Soft.\Clean Up Photos
+DefaultDirName={commonpf32}\Doena Soft.\Clean Up Photos
 ; DefaultGroupName=Doena Soft.
 DirExistsWarning=No
 SourceDir=..\CleanUpPhotos\bin\x86\CleanUpPhotos
@@ -13,16 +13,16 @@ Compression=zip/9
 AppMutex=InvelosDVDPro
 OutputBaseFilename=CleanUpPhotosSetup
 OutputDir=..\..\..\..\CleanUpPhotosSetup\Setup\CleanUpPhotos
-MinVersion=0,5.1
+MinVersion=0,6.0
 PrivilegesRequired=admin
 WizardImageFile=compiler:wizmodernimage-is.bmp
 WizardSmallImageFile=compiler:wizmodernsmallimage-is.bmp
 DisableReadyPage=yes
 ShowLanguageDialog=no
 VersionInfoCompany=Doena Soft.
-VersionInfoCopyright=2011 - 2015
+VersionInfoCopyright=2011 - 2021
 VersionInfoDescription=Clean Up Photos Setup
-VersionInfoVersion=3.1.2.0
+VersionInfoVersion=3.1.2.1
 UninstallDisplayIcon={app}\djdsoft.ico
 
 [Languages]
@@ -51,12 +51,12 @@ Source: "Readme\readme.html"; DestDir: "{app}\Readme"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
-Filename: "{win}\Microsoft.NET\Framework\v2.0.50727\RegAsm.exe"; Parameters: "/codebase ""{app}\CleanUpPhotos.dll"""; Flags: runhidden
+Filename: "{win}\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe"; Parameters: "/codebase ""{app}\CleanUpPhotos.dll"""; Flags: runhidden
 
 ;[UninstallDelete]
 
 [UninstallRun]
-Filename: "{win}\Microsoft.NET\Framework\v2.0.50727\RegAsm.exe"; Parameters: "/u ""{app}\CleanUpPhotos.dll"""; Flags: runhidden
+Filename: "{win}\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe"; Parameters: "/u ""{app}\CleanUpPhotos.dll"""; Flags: runhidden
 
 [Registry]
 ; Register - Cleanup ahead of time in case the user didn't uninstall the previous version.
