@@ -1,14 +1,14 @@
 [Setup]
 AppName=Clean Up Photos
 AppId=CleanUpPhotos
-AppVerName=Clean Up Photos 3.1.2.1
-AppCopyright=Copyright © Doena Soft. 2011 - 2022
+AppVerName=Clean Up Photos 3.1.3
+AppCopyright=Copyright © Doena Soft. 2011 - 2025
 AppPublisher=Doena Soft.
 AppPublisherURL=http://doena-journal.net/en/dvd-profiler-tools/
 DefaultDirName={commonpf32}\Doena Soft.\Clean Up Photos
 ; DefaultGroupName=Doena Soft.
 DirExistsWarning=No
-SourceDir=..\CleanUpPhotos\bin\x86\CleanUpPhotos
+SourceDir=..\CleanUpPhotos\bin\x86\Release\net472
 Compression=zip/9
 AppMutex=InvelosDVDPro
 OutputBaseFilename=CleanUpPhotosSetup
@@ -19,9 +19,9 @@ WizardStyle=modern
 DisableReadyPage=yes
 ShowLanguageDialog=no
 VersionInfoCompany=Doena Soft.
-VersionInfoCopyright=2011 - 2022
+VersionInfoCopyright=2011 - 2025
 VersionInfoDescription=Clean Up Photos Setup
-VersionInfoVersion=3.1.2.1
+VersionInfoVersion=3.1.3
 UninstallDisplayIcon={app}\djdsoft.ico
 
 [Languages]
@@ -36,16 +36,11 @@ Name: "full"; Description: "Full installation"
 [Files]
 Source: "djdsoft.ico"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "DoenaSoft.CleanUpPhotos.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "DoenaSoft.CleanUpPhotos.pdb"; DestDir: "{app}"; Flags: ignoreversion
-
-Source: "DoenaSoft.DVDProfilerHelper.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "DoenaSoft.DVDProfilerXML.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "DoenaSoft.WindowsAPICodePack.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "DoenaSoft.WindowsAPICodePack.Shell.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "*.pdb"; DestDir: "{app}"; Flags: ignoreversion
 
 
-Source: "de\DoenaSoft.DVDProfilerHelper.resources.dll"; DestDir: "{app}\de"; Flags: ignoreversion
+Source: "de\*.dll"; DestDir: "{app}\de"; Flags: ignoreversion
 
 Source: "Readme\readme.html"; DestDir: "{app}\Readme"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using DoenaSoft.DVDProfiler.DVDProfilerHelper;
 using DoenaSoft.DVDProfiler.DVDProfilerXML;
 using DoenaSoft.DVDProfiler.DVDProfilerXML.Version400;
+using DoenaSoft.ToolBox.Generics;
 using Invelos.DVDProfilerPlugin;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
@@ -71,7 +72,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         #endregion
 
         #region Fields
-        private IDVDProfilerAPI Api;
+        private readonly IDVDProfilerAPI Api;
 
         private ProgressWindow ProgressWindow;
 
@@ -875,7 +876,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                     String xml;
 
                     xml = (String)(this.Invoke(new GetProfileDataDelegate(this.GetProfileData), allIds[i]));
-                    dvd = DVDProfilerSerializer<DVD>.FromString(xml, DVD.DefaultEncoding);
+                    dvd = XmlSerializer<DVD>.FromString(xml, DVD.DefaultEncoding);
                     dvdList.Add(dvd);
 
                     this.Invoke(new ProgressBarDelegate(this.UpdateProgressBar));

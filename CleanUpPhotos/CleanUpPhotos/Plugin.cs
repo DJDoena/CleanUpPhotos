@@ -3,6 +3,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using DoenaSoft.DVDProfiler.DVDProfilerHelper;
+using DoenaSoft.DVDProfiler.DVDProfilerXML;
+using DoenaSoft.ToolBox.Generics;
 using Invelos.DVDProfilerPlugin;
 
 namespace DoenaSoft.DVDProfiler.CleanUpPhotos
@@ -24,6 +26,12 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
         private const Int32 MenuId = 1;
 
         private String MenuTokenISCP = "";
+
+        static Plugin()
+        {
+            DVDProfilerXMLAssemblyLoader.Load();
+        }
+
         public Plugin()
         {
             ApplicationPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Doena Soft\Clean Up Photos\";
@@ -159,7 +167,7 @@ namespace DoenaSoft.DVDProfiler.CleanUpPhotos
                             File.Delete(ErrorFile);
                         }
                         exceptionXml = new ExceptionXml(ex);
-                        DVDProfilerSerializer<ExceptionXml>.Serialize(ErrorFile, exceptionXml);
+                        XmlSerializer<ExceptionXml>.Serialize(ErrorFile, exceptionXml);
                     }
                     catch (Exception inEx)
                     {
