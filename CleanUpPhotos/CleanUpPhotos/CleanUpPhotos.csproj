@@ -12,15 +12,15 @@
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>CleanUpPhotos.snk</AssemblyOriginatorKeyFile>
+		<EnableComHosting>true</EnableComHosting>
 		<Title>CleanUpPhotos</Title>
-		<Product>DVD Profiler Add by DVD Disc ID</Product>
+		<Product>DVD Profiler Clean Up Photos</Product>
 		<Description>This program helps you to clean up folders created by DVD Profiler.</Description>
 		<Company>Doena Soft.</Company>
 		<Authors>DJ Doena</Authors>
 		<Copyright>Copyright © Doena Soft. 2011 - 2025</Copyright>
-		<Version>1.0.1</Version>
-		<FileVersion>1.0.1</FileVersion>
-		<EnableComHosting>true</EnableComHosting>
+		<Version>3.1.3</Version>
+		<FileVersion>3.1.3</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
